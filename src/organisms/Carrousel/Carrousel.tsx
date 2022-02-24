@@ -5,6 +5,7 @@ import Carousel from 'react-elastic-carousel'
 
 interface IProps {
   title: string
+  small?: boolean
 }
 const config = {
   scrollPerClick: 50,
@@ -23,7 +24,7 @@ function getWindowDimensions() {
     }
   }
 }
-const Carrousel = ({ title }: IProps) => {
+const Carrousel = ({ title, small }: IProps) => {
   const [translate, setTranslate] = useState(0)
   const carrousel = React.useRef<HTMLDivElement>(null)
   const containerCarrousel = React.useRef<HTMLDivElement>(null)
@@ -59,7 +60,7 @@ const Carrousel = ({ title }: IProps) => {
           <button
             onClick={() =>
               setTranslate(prev => {
-                const next = prev - width - 200
+                const next = prev - (width - 300)
                 if (next <= 0) return 0
                 return Math.max(next, 0)
               })
@@ -70,7 +71,7 @@ const Carrousel = ({ title }: IProps) => {
           <button
             onClick={() =>
               setTranslate(prev => {
-                const next = prev + (width - 200)
+                const next = prev + (width - 300)
                 console.log(next)
                 if (!carrousel.current) next
                 else if (next > carrousel.current.scrollWidth) {
@@ -95,7 +96,7 @@ const Carrousel = ({ title }: IProps) => {
       </div>
 
       <div
-        className="carrousel-images"
+        className={`carrousel-images ${small ? 'small' : ''}`}
         ref={carrousel}
         style={{ transform: `translateX(-${translate}px)` }}
       >

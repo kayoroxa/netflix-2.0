@@ -3,7 +3,10 @@ import styled from 'styled-components'
 export const ContainerCarrousel = styled.div`
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+
+  * {
+    overflow: hidden;
+  }
 
   .head {
     display: flex;
@@ -41,16 +44,18 @@ export const ContainerCarrousel = styled.div`
     padding: 10px;
     min-width: fit-content;
     display: flex;
-    gap: 30px;
+    gap: 15px;
     transition: all 1.3s;
   }
+
   .card {
-    border-radius: 40px;
+    border-radius: 30px;
     height: 100%;
     display: flex;
     flex-direction: column;
     background: white;
     overflow: hidden;
+
     width: 250px;
 
     .container-img {
@@ -62,7 +67,7 @@ export const ContainerCarrousel = styled.div`
       height: 100%;
       width: 100%;
       object-fit: cover;
-      border-radius: 40px;
+      border-radius: 30px;
       padding: 10px;
       box-sizing: border-box;
       min-height: 100%;
@@ -72,6 +77,28 @@ export const ContainerCarrousel = styled.div`
       * {
         padding: 0 20px;
       }
+    }
+  }
+
+  .carrousel-images.small {
+    height: 170px;
+
+    .card {
+      flex-direction: row;
+      /* justify-content: space-between; */
+      align-items: center;
+    }
+
+    .container-img {
+      height: 100%;
+      width: 40%;
+    }
+
+    .infos * {
+      padding: 0;
+      margin-right: 10px;
+      /* text-align: center; */
+      font-size: 17px;
     }
   }
 `
