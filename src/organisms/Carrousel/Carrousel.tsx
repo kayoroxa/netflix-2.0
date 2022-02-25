@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { ContainerCarrousel } from './styles-carrousel'
 import Carousel from 'react-elastic-carousel'
+import Score from '../../atoms/Score'
 
 interface IProps {
   title: string
@@ -106,11 +107,14 @@ const Carrousel = ({ title, small }: IProps) => {
               <img src={v.img} alt="" />
             </div>
             <div className="infos">
+              <div className="inline">
+                {!small && <Score />}
+                <span>{v.description}</span>
+              </div>
               <h3>
                 {i}
                 {v.title}
               </h3>
-              <p>{v.description}</p>
             </div>
           </div>
         ))}

@@ -27,17 +27,18 @@ export const ContainerCarrousel = styled.div`
       padding: 5px 15px;
       border-radius: 5px;
       cursor: pointer;
-      background-color: #f2f2f2;
+      background-color: #feffff;
       border: none;
 
       &:hover {
-        background-color: blue;
+        background-color: red;
+        color: white;
       }
     }
   }
 
   .carrousel-images {
-    height: 300px;
+    height: 280px;
     box-sizing: border-box;
     /* min-width: 100%; */
     /* background: blue; */
@@ -49,14 +50,19 @@ export const ContainerCarrousel = styled.div`
   }
 
   .card {
-    border-radius: 30px;
+    border-radius: 25px;
     height: 100%;
     display: flex;
     flex-direction: column;
     background: white;
     overflow: hidden;
+    cursor: pointer;
+    width: 200px;
+    transition: all 0.2s;
 
-    width: 250px;
+    :hover {
+      transform: scale(1.1);
+    }
 
     .container-img {
       height: 75%;
@@ -67,34 +73,56 @@ export const ContainerCarrousel = styled.div`
       height: 100%;
       width: 100%;
       object-fit: cover;
-      border-radius: 30px;
-      padding: 10px;
+      border-radius: 25px;
+      padding: 8px;
       box-sizing: border-box;
       min-height: 100%;
       min-width: 100%;
     }
     .infos {
-      * {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      > h3,
+      div {
         padding: 0 20px;
+      }
+      .inline {
+        font-size: 0.9rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+        > span {
+          color: #acacac;
+        }
       }
     }
   }
 
   .carrousel-images.small {
-    height: 170px;
+    height: 120px;
 
     .card {
       flex-direction: row;
       /* justify-content: space-between; */
       align-items: center;
+      border-radius: 18px;
+      width: 240px;
     }
 
     .container-img {
       height: 100%;
-      width: 40%;
-    }
+      width: 33%;
 
-    .infos * {
+      img {
+        border-radius: 18px;
+      }
+    }
+    .infos {
+      margin-left: 10px;
+    }
+    .infos > * {
       padding: 0;
       margin-right: 10px;
       /* text-align: center; */

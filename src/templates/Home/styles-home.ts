@@ -27,7 +27,7 @@ export const ContainerHome = styled.div`
       radial-gradient(
         circle farthest-corner at 70% 40%,
         rgb(239, 224, 231) 6.8%,
-        rgb(225, 226, 244) 40.2%
+        rgb(229, 231, 246) 40.2%
       );
   }
 
@@ -38,16 +38,29 @@ export const ContainerHome = styled.div`
     gap: 30px;
     align-items: center;
     padding: 0 20px;
-
+    a {
+      text-decoration: none;
+      color: #000;
+    }
+    a:hover {
+      color: red;
+    }
     img {
       /* width: 100px; */
-      height: 70px;
+      height: 40px;
     }
   }
 
   section {
     display: flex;
     width: 100%;
+  }
+
+  .container-poster {
+    width: 100%;
+    height: 50vh;
+    /* background: blue; */
+    /* overflow: hidden; */
   }
 
   /* box-sizing: border-box; */
@@ -74,7 +87,7 @@ export const ContainerHome = styled.div`
     gap: 20px;
     background: linear-gradient(
       180deg,
-      rgba(234, 247, 252, 1) 0%,
+      rgb(240, 242, 254) 0%,
       rgb(240, 242, 254) 100%
     );
 
