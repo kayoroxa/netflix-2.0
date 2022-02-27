@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import { ContainerPlay } from './styles-play'
 import { BiArrowBack } from 'react-icons/bi'
@@ -57,26 +57,29 @@ const Play = ({ id, gDrive }: IProps) => {
       </div>
       <div className="container-video">
         <div className="anti" onClick={() => openFullscreen(ref.current)}>
-          <iframe
-            width="560"
-            height="315"
-            src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&showinfo=0&autohide=1&modestbranding=1`}
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            // allowfullscreen
-            cc_load_policy={3}
-          ></iframe>
-          {/* <iframe
-            allowFullScreen={true}
-            marginHeight={0}
-            marginWidth={0}
-            mozallowfullscreen="NO"
-            scrolling="NO"
-            src="https://drive.google.com/file/d/1xh5fWNa5kgpfE2sUN_FN2yUWexlYP6es/preview"
-            style={{ border: '2px' }}
-            webkitallowfullscreen="NO"
-          ></iframe> */}
+          {gDrive ? (
+            <iframe
+              width="560"
+              height="315"
+              src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&showinfo=0&autohide=1&modestbranding=1`}
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              // allowfullscreen
+              cc_load_policy={3}
+            ></iframe>
+          ) : (
+            <iframe
+              allowFullScreen={true}
+              marginHeight={0}
+              marginWidth={0}
+              mozallowfullscreen="NO"
+              scrolling="NO"
+              src="https://drive.google.com/file/d/1xh5fWNa5kgpfE2sUN_FN2yUWexlYP6es/preview"
+              style={{ border: '2px' }}
+              webkitallowfullscreen="NO"
+            ></iframe>
+          )}
         </div>
       </div>
     </ContainerPlay>
