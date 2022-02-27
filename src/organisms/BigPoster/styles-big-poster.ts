@@ -23,18 +23,22 @@ export const ContainerBigPoster = styled.div`
   }
 
   .info {
+    * {
+      box-sizing: border-box;
+    }
     /* background: black; */
+    /* box sizing */
     color: white;
     position: absolute;
-    width: min(30%, 300px);
-    height: 50%;
+    width: min(40%, 350px);
+    height: 100%;
     left: 40px;
     margin: auto;
     /* top: 0; */
-    bottom: 40px;
+    bottom: 15%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: end;
 
     .description {
       font-size: 0.9rem;
@@ -57,6 +61,22 @@ export const ContainerBigPoster = styled.div`
 
       :hover {
         background: rgb(238, 63, 68);
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .info {
+      width: 100%;
+      left: 20px;
+
+      .title {
+        font-size: 1rem;
+      }
+
+      button {
+        padding: 8px 20px;
+        font-size: 1rem;
       }
     }
   }

@@ -51,33 +51,29 @@ export const ContainerHome = styled.div`
     }
   }
 
-  section {
-    display: flex;
-    width: 100%;
-  }
-
   .container-poster {
     width: 100%;
     height: 50vh;
-    /* background: blue; */
-    /* overflow: hidden; */
+  }
+
+  @media (max-width: 768px) {
+    .container-poster {
+      width: 100%;
+      height: 30vh;
+    }
   }
 
   /* box-sizing: border-box; */
 
   .left {
-    width: 70%;
     display: flex;
     flex-direction: column;
     gap: 15px;
     padding: 15px;
+    box-sizing: border-box;
   }
 
   .right {
-    position: fixed;
-    right: 0;
-    width: 25%;
-    min-height: 100vh;
     box-sizing: border-box;
     padding: 10px;
     border-radius: 35px 0 0 35px;
@@ -94,6 +90,42 @@ export const ContainerHome = styled.div`
     .avatar {
       box-sizing: border-box;
       padding: 20px;
+    }
+  }
+  section {
+    margin: auto;
+    width: 100%;
+    max-width: 1600px;
+    position: relative;
+  }
+  //is pc
+  @media (min-width: 768px) {
+    .right {
+      position: fixed;
+      right: 0;
+      width: 25%;
+      min-height: 100vh;
+    }
+    .left {
+      width: 74%;
+      padding: 0;
+      padding: 15px 30px;
+    }
+    section {
+      display: flex;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .left {
+      width: 100vw;
+      padding: 8px;
+    }
+    .right {
+      width: 100%;
+      border-radius: 0;
+      padding: 0;
     }
   }
 `

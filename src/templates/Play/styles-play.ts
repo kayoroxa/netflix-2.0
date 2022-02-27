@@ -1,23 +1,17 @@
 import styled from 'styled-components'
 
 export const ContainerPlay = styled.div`
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: black;
 
   .controls--player {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 600;
     width: 50px;
     height: 50px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    background: red;
+    position: fixed;
   }
 
   .go-back {
@@ -79,18 +73,18 @@ export const ContainerPlay = styled.div`
     width: 100%;
   }
 
-  /* on mobile */
   @media (max-width: 768px) {
     /* rotate */
-    .container-video {
+    /* .container-video {
+      position: fixed;
       transform: rotate(-90deg);
       transform-origin: left top;
       width: 100vh;
       overflow-x: hidden;
       position: absolute;
-      top: 100%;
+      bottom: -58%;
       left: 0;
-    }
+    } */
     .anti {
       padding-bottom: 100vw;
     }
