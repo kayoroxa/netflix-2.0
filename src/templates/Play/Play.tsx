@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { ContainerPlay } from './styles-play'
 import { BiArrowBack } from 'react-icons/bi'
 import { useRouter } from 'next/router'
-
+import YouTube from 'react-youtube'
 interface IProps {
   id: string
   gDrive?: boolean
@@ -49,25 +49,52 @@ const Play = ({ id, gDrive }: IProps) => {
       }, 1000)
     }
   }
+  const [videoTarget, setVideoTarget] = useState<any>(null)
+  const [showControls, setShowControls] = useState(false)
+  function _onReady(event: any) {
+    setVideoTarget(event.target)
+  }
 
+  // useEffect(() => {
+  //   if (showControls) {
+
+  //   }
+  // }, [showControls])
   return (
     <ContainerPlay ref={ref}>
-      <div className="go-back" ref={goBack} onClick={() => router.push('/')}>
+      <div
+        className="go-back"
+        ref={goBack}
+        onClick={() => {
+          router.push('/')
+          // console.log(videoTarget)
+          //
+        }}
+      >
         <BiArrowBack />
       </div>
+      {showControls && <div className="controls--player"></div>}
       <div className="container-video">
         <div className="anti" onClick={() => openFullscreen(ref.current)}>
-          {gDrive ? (
-            <iframe
-              width="560"
-              height="315"
-              src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&showinfo=0&autohide=1&modestbranding=1`}
-              title="YouTube video player"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              // allowfullscreen
-              cc_load_policy={3}
-            ></iframe>
+          {!gDrive ? (
+            // <iframe
+            //   width="560"
+            //   height="315"
+            //   src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&showinfo=0&autohide=1&modestbranding=1`}
+            //   title="YouTube video player"
+            //   frameborder="0"
+            //   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            //   // allowfullscreen
+            //   cc_load_policy={3}
+            // ></iframe>
+
+            <YouTube
+              videoId={id}
+              opts={{ playerVars: { autoplay: 1, modestbranding: 1, fs: 0 } }}
+              onReady={_onReady}
+              onPause={() => setShowControls(true)}
+              onPlay={() => setShowControls(false)}
+            />
           ) : (
             <iframe
               allowFullScreen={true}

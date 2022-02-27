@@ -7,6 +7,19 @@ export const ContainerPlay = styled.div`
   flex-direction: column;
   align-items: center;
 
+  .controls--player {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 600;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: red;
+  }
+
   .go-back {
     position: fixed;
     top: 20px;

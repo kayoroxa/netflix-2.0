@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { ContainerCarrousel } from './styles-carrousel'
 import Score from '../../atoms/Score'
 import { _Data_Item } from '../../utils/types/_type_data'
+import { useRouter } from 'next/router'
 
 interface IProps {
   title: string
@@ -27,6 +28,7 @@ function getWindowDimensions() {
   }
 }
 const Carrousel = ({ title, items, small }: IProps) => {
+  const router = useRouter()
   const [translate, setTranslate] = useState(0)
   const carrousel = React.useRef<HTMLDivElement>(null)
   const containerCarrousel = React.useRef<HTMLDivElement>(null)
@@ -87,7 +89,11 @@ const Carrousel = ({ title, items, small }: IProps) => {
         style={{ transform: `translateX(-${translate}px)` }}
       >
         {items.map((v, i) => (
-          <div className="card">
+          <div
+            className="card"
+            key={v.title}
+            onClick={() => router.push('/play?v=' + v.id)}
+          >
             <div className="container-img">
               <img src={v.img} alt="" />
             </div>

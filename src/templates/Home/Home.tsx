@@ -8,9 +8,14 @@ import { ContainerHome } from './styles-home'
 
 interface IProps {
   data: _Data
+  posterData: {
+    img: string
+    id: string
+    title: string
+  }
 }
 
-const Home = ({ data }: IProps) => {
+const Home = ({ data, posterData }: IProps) => {
   return (
     <ContainerHome>
       <section>
@@ -29,7 +34,11 @@ const Home = ({ data }: IProps) => {
             </a>
           </header>
           <div className="container-poster">
-            <BigPoster src="https://images.moviemeter.nl/tmdb/t/p/original//ylawpj3jvLESk7JGh4QvlzD9EmH.jpg" />
+            <BigPoster
+              src={posterData.img}
+              id={posterData.id}
+              title={posterData.title}
+            />
           </div>
           {/* <Carrousel title="frequentes" />
           <Carrousel title="easy" />
@@ -47,8 +56,8 @@ const Home = ({ data }: IProps) => {
         </div>
         <div className="right">
           <Avatar />
-          {/* <Carrousel title="Favoritos" small />
-          <Carrousel title="Favoritos" small /> */}
+          <Carrousel title="Favoritos" small items={data.categories[0].items} />
+          <Carrousel title="Favoritos" small items={data.categories[1].items} />
         </div>
       </section>
     </ContainerHome>

@@ -5,18 +5,18 @@ import { ContainerBigPoster } from './styles-big-poster'
 
 interface IProps {
   src: string
+  id: string
+  title: string
 }
-const BigPoster = ({ src }: IProps) => {
+const BigPoster = ({ src, id, title }: IProps) => {
   const router = useRouter()
   return (
     <ContainerBigPoster>
       <img src={src} alt="" />
       <div className="info">
         <div className="description">Season 1</div>
-        <div className="title">Vingadores</div>
-        <button onClick={() => router.push('/play?v=C5-3JUkA3Uo')}>
-          Watch Now
-        </button>
+        <div className="title">{title}</div>
+        <button onClick={() => router.push('/play?v=' + id)}>Watch Now</button>
       </div>
     </ContainerBigPoster>
   )
