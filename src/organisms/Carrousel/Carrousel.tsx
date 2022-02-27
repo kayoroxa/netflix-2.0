@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 
 import { ContainerCarrousel } from './styles-carrousel'
-import Carousel from 'react-elastic-carousel'
 import Score from '../../atoms/Score'
+import { _Data_Item } from '../../utils/types/_type_data'
 
 interface IProps {
   title: string
+  items: _Data_Item[]
   small?: boolean
 }
-const config = {
-  scrollPerClick: 50,
-}
+// const config = {
+//   scrollPerClick: 50,
+// }
 function getWindowDimensions() {
   try {
     const { innerWidth: width, innerHeight: height } = window
@@ -25,7 +26,7 @@ function getWindowDimensions() {
     }
   }
 }
-const Carrousel = ({ title, small }: IProps) => {
+const Carrousel = ({ title, items, small }: IProps) => {
   const [translate, setTranslate] = useState(0)
   const carrousel = React.useRef<HTMLDivElement>(null)
   const containerCarrousel = React.useRef<HTMLDivElement>(null)
@@ -36,22 +37,6 @@ const Carrousel = ({ title, small }: IProps) => {
     console.log(containerCarrousel.current?.clientWidth)
   }, [containerCarrousel])
 
-  const itemsData = [
-    ...Array(6)
-      .fill(0)
-      .map(() => ({
-        title: 'Viuva negra',
-        description: 'Very good movie',
-        img: 'https://lumiere-a.akamaihd.net/v1/images/p_blackwidow_21043_v2_6d1b73b8.jpeg',
-      })),
-    ...Array(6)
-      .fill(0)
-      .map(() => ({
-        title: 'Black Widow',
-        description: 'Very cool',
-        img: 'https://tafttoday.com/wp-content/uploads/2019/05/MV5BZTliNWJhM2YtNDc1MC00YTk1LWE2MGYtZmE4M2Y5ODdlNzQzXkEyXkFqcGdeQXVyMzY0MTE3NzU@._V1_-1-568x900.jpg',
-      })),
-  ]
   // console.log(itemsData.map(item => item.img))
   return (
     <ContainerCarrousel ref={containerCarrousel}>
@@ -101,7 +86,7 @@ const Carrousel = ({ title, small }: IProps) => {
         ref={carrousel}
         style={{ transform: `translateX(-${translate}px)` }}
       >
-        {itemsData.map((v, i) => (
+        {items.map((v, i) => (
           <div className="card">
             <div className="container-img">
               <img src={v.img} alt="" />
@@ -109,7 +94,7 @@ const Carrousel = ({ title, small }: IProps) => {
             <div className="infos">
               <div className="inline">
                 {!small && <Score />}
-                <span>{v.description}</span>
+                <span>{v.description ? v.description : ''}</span>
               </div>
               <h3>
                 {i}
