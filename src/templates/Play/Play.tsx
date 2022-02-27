@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { ContainerPlay } from './styles-play'
 import { BiArrowBack } from 'react-icons/bi'
@@ -35,25 +35,25 @@ const Play = ({ id, gDrive }: IProps) => {
   //   }
   // }
 
-  let timeOut: NodeJS.Timeout | null = null
-  function onMouseMove() {
-    console.log('mouse move')
-    if (goBack.current) {
-      if (timeOut) clearTimeout(timeOut)
-      goBack.current.style.opacity = '1'
+  // let timeOut: NodeJS.Timeout | null = null
+  // function onMouseMove() {
+  //   console.log('mouse move')
+  //   if (goBack.current) {
+  //     if (timeOut) clearTimeout(timeOut)
+  //     goBack.current.style.opacity = '1'
 
-      timeOut = setTimeout(() => {
-        if (goBack.current) {
-          goBack.current.style.opacity = '0'
-        }
-      }, 1000)
-    }
-  }
-  const [videoTarget, setVideoTarget] = useState<any>(null)
+  //     timeOut = setTimeout(() => {
+  //       if (goBack.current) {
+  //         goBack.current.style.opacity = '0'
+  //       }
+  //     }, 1000)
+  //   }
+  // }
+  // const [videoTarget, setVideoTarget] = useState<any>(null)
   const [showControls, setShowControls] = useState(false)
-  function _onReady(event: any) {
-    setVideoTarget(event.target)
-  }
+  // function _onReady(event: any) {
+  //   // setVideoTarget(event.target)
+  // }
 
   // useEffect(() => {
   //   if (showControls) {
@@ -91,7 +91,7 @@ const Play = ({ id, gDrive }: IProps) => {
             <YouTube
               videoId={id}
               opts={{ playerVars: { autoplay: 1, modestbranding: 1, fs: 0 } }}
-              onReady={_onReady}
+              // onReady={_onReady}
               onPause={() => setShowControls(true)}
               onPlay={() => setShowControls(false)}
             />
@@ -100,11 +100,11 @@ const Play = ({ id, gDrive }: IProps) => {
               allowFullScreen={true}
               marginHeight={0}
               marginWidth={0}
-              mozallowfullscreen="NO"
+              // mozallowfullscreen="NO"
               scrolling="NO"
               src="https://drive.google.com/file/d/1xh5fWNa5kgpfE2sUN_FN2yUWexlYP6es/preview"
               style={{ border: '2px' }}
-              webkitallowfullscreen="NO"
+              // webkitallowfullscreen="NO"
             ></iframe>
           )}
         </div>

@@ -61,14 +61,14 @@ const Carrousel = ({ title, items, small }: IProps) => {
               setTranslate(prev => {
                 const next = prev + (width - 300)
                 console.log(next)
-                if (!carrousel.current) next
+                if (!carrousel.current) return next
                 else if (next > carrousel.current.scrollWidth) {
                   return 0
                 }
                 console.log(containerCarrousel.current?.clientWidth)
                 const isLast = next * 2 >= carrousel.current.scrollWidth - 5
                 console.log(carrousel.current.scrollWidth)
-                if (isLast)
+                if (isLast && containerCarrousel.current?.clientWidth)
                   return (
                     carrousel.current.scrollWidth -
                     containerCarrousel.current?.clientWidth -
