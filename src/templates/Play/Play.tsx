@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { ContainerPlay } from './styles-play'
 import { BiArrowBack } from 'react-icons/bi'
@@ -15,12 +15,19 @@ const Play = ({ id, gDrive }: IProps) => {
 
   function openFullscreen(elem: any) {
     if (elem.requestFullscreen) {
-      elem.requestFullscreen()
+      console.log(elem)
+      try {
+        elem?.requestFullscreen()
+      } catch (error) {
+        console.log('oio')
+      }
     } else if (elem.webkitRequestFullscreen) {
       elem.webkitRequestFullscreen()
     } else if (elem.msRequestFullscreen) {
       elem.msRequestFullscreen()
     }
+
+    screen.orientation.lock('landscape-primary')
   }
 
   // function closeFullscreen() {
@@ -51,15 +58,34 @@ const Play = ({ id, gDrive }: IProps) => {
   // }
   // const [videoTarget, setVideoTarget] = useState<any>(null)
   const [showControls, setShowControls] = useState(false)
-  // function _onReady(event: any) {
-  //   // setVideoTarget(event.target)
-  // }
+  function _onReady(event: any) {
+    // setVideoTarget(event.target)
+    event.target.seekTo(10)
+  }
 
   // useEffect(() => {
   //   if (showControls) {
 
   //   }
   // }, [showControls])
+  useEffect(() => {
+    function _isMobile() {
+      // if we want a more complete list use this: http://detectmobilebrowsers.com/
+      // str.test() is more efficent than str.match()
+      // remember str.test is case sensitive
+      var isMobile = /iphone|ipod|android|ie|blackberry|fennec/.test(
+        navigator.userAgent.toLowerCase()
+      )
+      return isMobile
+    }
+    if (ref.current && _isMobile()) {
+      openFullscreen(ref.current)
+    }
+  }, [ref])
+  // useEffect(() => {
+  //   alert('oi')
+  // }, [])
+
   return (
     <ContainerPlay ref={ref}>
       <div
@@ -91,7 +117,7 @@ const Play = ({ id, gDrive }: IProps) => {
             <YouTube
               videoId={id}
               opts={{ playerVars: { autoplay: 1, modestbranding: 1, fs: 0 } }}
-              // onReady={_onReady}
+              onReady={_onReady}
               onPause={() => setShowControls(true)}
               onPlay={() => setShowControls(false)}
             />
