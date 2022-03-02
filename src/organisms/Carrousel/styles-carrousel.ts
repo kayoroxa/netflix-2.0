@@ -38,7 +38,7 @@ export const ContainerCarrousel = styled.div`
   }
 
   .carrousel-images {
-    height: 280px;
+    height: 26vh;
     box-sizing: border-box;
     /* min-width: 100%; */
     /* background: blue; */
@@ -50,15 +50,15 @@ export const ContainerCarrousel = styled.div`
   }
 
   .card {
-    border-radius: 25px;
     height: 100%;
+    width: min(200px, 25vw);
     display: flex;
     flex-direction: column;
     background: white;
     overflow: hidden;
     cursor: pointer;
-    width: 200px;
     transition: all 0.2s;
+    border-radius: 25px;
 
     :hover {
       transform: scale(1.1);
@@ -95,6 +95,38 @@ export const ContainerCarrousel = styled.div`
         gap: 5px;
         > span {
           color: #acacac;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container-img {
+      height: 50%;
+    }
+    .carrousel-images {
+      gap: 8px;
+
+      .card {
+        border-radius: 15px;
+        width: 30vw;
+        .container-img {
+          flex: 1;
+        }
+        img {
+          border-radius: 20px;
+          padding: 8px;
+        }
+        .infos {
+          padding: 0 10px;
+          margin-bottom: 10px;
+          .inline {
+            display: none;
+          }
+          font-size: 0.7rem;
+          h3 {
+            padding: 0;
+          }
         }
       }
     }
