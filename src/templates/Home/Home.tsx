@@ -13,9 +13,10 @@ interface IProps {
     id: string
     title: string
   }
+  showInfo?: boolean
 }
 
-const Home = ({ data, posterData }: IProps) => {
+const Home = ({ data, posterData, showInfo }: IProps) => {
   return (
     <ContainerHome>
       <section>
@@ -46,6 +47,7 @@ const Home = ({ data, posterData }: IProps) => {
 
           {data.categories.map(category => (
             <Carrousel
+              showInfo={showInfo}
               key={category.title}
               title={category.title}
               items={category.items}
@@ -56,8 +58,18 @@ const Home = ({ data, posterData }: IProps) => {
         </div>
         <div className="right">
           <Avatar />
-          <Carrousel title="Favoritos" small items={data.categories[0].items} />
-          <Carrousel title="Favoritos" small items={data.categories[1].items} />
+          {/* <Carrousel
+            showInfo={showInfo}
+            title="Favoritos"
+            small
+            items={data.categories[0].items}
+          />
+          <Carrousel
+            showInfo={showInfo}
+            title="Favoritos"
+            small
+            items={data.categories[1].items}
+          /> */}
         </div>
       </section>
     </ContainerHome>

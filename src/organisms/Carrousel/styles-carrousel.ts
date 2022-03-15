@@ -51,7 +51,7 @@ export const ContainerCarrousel = styled.div`
 
   .card {
     height: 100%;
-    width: min(200px, 25vw);
+    width: min(250px, 25vw);
     display: flex;
     flex-direction: column;
     background: white;
@@ -65,7 +65,7 @@ export const ContainerCarrousel = styled.div`
     }
 
     .container-img {
-      height: 75%;
+      flex: 1;
       width: 100%;
       /* background-color: pink; */
     }
@@ -81,10 +81,12 @@ export const ContainerCarrousel = styled.div`
     }
     .infos {
       display: flex;
+      height: 35%;
       flex-direction: column;
       gap: 5px;
       > h3,
       div {
+        font-size: 1rem;
         padding: 0 20px;
       }
       .inline {

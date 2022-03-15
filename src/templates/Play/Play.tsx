@@ -92,7 +92,7 @@ const Play = ({ id, gDrive }: IProps) => {
         className="go-back"
         ref={goBack}
         onClick={() => {
-          router.push('/')
+          router.back()
           // console.log(videoTarget)
           //
         }}

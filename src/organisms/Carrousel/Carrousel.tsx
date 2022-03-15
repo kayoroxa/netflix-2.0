@@ -9,6 +9,7 @@ interface IProps {
   title: string
   items: _Data_Item[]
   small?: boolean
+  showInfo?: boolean
 }
 // const config = {
 //   scrollPerClick: 50,
@@ -27,7 +28,7 @@ function getWindowDimensions() {
     }
   }
 }
-const Carrousel = ({ title, items, small }: IProps) => {
+const Carrousel = ({ title, items, small, showInfo = true }: IProps) => {
   const router = useRouter()
   const [translate, setTranslate] = useState(0)
   const carrousel = React.useRef<HTMLDivElement>(null)
@@ -97,13 +98,15 @@ const Carrousel = ({ title, items, small }: IProps) => {
             <div className="container-img">
               <img src={v.img} alt="" />
             </div>
-            <div className="infos">
-              <div className="inline">
-                {!small && <Score />}
-                <span>{v.description ? v.description : ''}</span>
+            {showInfo && (
+              <div className="infos">
+                <div className="inline">
+                  {!small && <Score />}
+                  <span>{v.description ? v.description : ''}</span>
+                </div>
+                <h3>{v.title}</h3>
               </div>
-              <h3>{v.title}</h3>
-            </div>
+            )}
           </div>
         ))}
       </div>
