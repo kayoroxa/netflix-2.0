@@ -102,10 +102,7 @@ const Carrousel = ({ title, items, small }: IProps) => {
                 {!small && <Score />}
                 <span>{v.description ? v.description : ''}</span>
               </div>
-              <h3>
-                {i}
-                {v.title}
-              </h3>
+              <h3>{v.title}</h3>
             </div>
           </div>
         ))}
