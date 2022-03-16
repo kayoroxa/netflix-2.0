@@ -3,6 +3,56 @@ import CreateSentences from '../../templates/CreateSentences'
 
 const bigData = [
   {
+    rawSentence: 'What {algo} {do + p} {complemento}?',
+    replacements: [
+      {
+        id: 'algo',
+        alternatives: [
+          'sport',
+          'music',
+          'movie',
+          'book',
+          'game',
+          'food',
+          'drink',
+        ],
+      },
+      {
+        id: 'do + p',
+        alternatives: [
+          'do i',
+          'do you',
+          'do we',
+          'do they',
+          'does he',
+          'does she',
+        ],
+      },
+      {
+        id: 'complemento',
+        alternatives: [
+          'like',
+          'love',
+          'hate',
+          'want',
+          'need',
+          'want to',
+          'need to',
+        ],
+      },
+    ],
+  },
+  {
+    rawSentence: '{p+to_be} not sure {wq}',
+    replacements: [
+      {
+        id: 'p+to_be',
+        alternatives: ["i'm", "you're", "we're", "she's", "he's"],
+      },
+      { id: 'wq', alternatives: ['why', 'when', 'how much'] },
+    ],
+  },
+  {
     rawSentence: '{p} {verb} {noun} as well',
     replacements: [
       { id: 'verb', alternatives: ['love 💕', 'hate 😡'] },
