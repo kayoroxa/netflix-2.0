@@ -3,6 +3,49 @@ import CreateSentences from '../../templates/CreateSentences'
 
 const bigData = [
   {
+    rawSentence: '{p+to_be} {adj} {comp}',
+    replacements: [
+      {
+        id: 'p+to_be',
+        alternatives: [
+          "i'm",
+          "you're",
+          "we're",
+          "she's",
+          "he's",
+          "it's◽",
+          "they're",
+          'Our parents are',
+          'My partner and I are',
+        ],
+      },
+      {
+        id: 'p+adj',
+        alternatives: [
+          'very',
+          'complicated◽',
+          'hard',
+          'easy',
+          'angry',
+          'persuasive',
+        ],
+      },
+      {
+        id: 'comp',
+        alternatives: [
+          'unnecessary◽',
+          'story◽',
+          'late',
+          'sorry about this',
+          'upset',
+          'close',
+          'happy',
+          'busy',
+        ],
+      },
+    ],
+  },
+  {
     rawSentence: 'What {algo} {do + p} {complemento}?',
     replacements: [
       {
