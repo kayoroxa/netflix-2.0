@@ -13,34 +13,36 @@ const bigData = [
           "we're",
           "she's",
           "he's",
-          "it's◽",
           "they're",
           'Our parents are',
           'My partner and I are',
+          // "it's◽",
+          // 'today was◽',
         ],
       },
       {
-        id: 'p+adj',
+        id: 'adj',
         alternatives: [
           'very',
-          'complicated◽',
-          'hard',
-          'easy',
-          'angry',
-          'persuasive',
+          '_',
+          // 'hard',
+          // 'complicated◽',
+          // 'easy◽'
         ],
       },
       {
         id: 'comp',
         alternatives: [
-          'unnecessary◽',
-          'story◽',
           'late',
           'sorry about this',
           'upset',
           'close',
           'happy',
           'busy',
+          'angry',
+          'persuasive',
+          // 'unnecessary◽',
+          // 'story◽',
         ],
       },
     ],
@@ -129,16 +131,27 @@ const bigData = [
     ],
   },
   {
-    rawSentence: '{p+to_be} {intensificador} trying to {complement}',
+    rawSentence: '{p+to_be} {intensificador} {x} {mid} {complement}',
     replacements: [
       {
         id: 'p+to_be',
         alternatives: ["i'm", "you're", "we're", "she's", "he's"],
       },
       { id: 'intensificador', alternatives: ['really', 'just', '_'] },
+      { id: 'x', alternatives: ['did', "didn't", 'will', "won't", '_'] },
+      {
+        id: 'mid',
+        alternatives: ['trying to', 'want to', 'need to'],
+      },
       {
         id: 'complement',
-        alternatives: ['understand', 'tell something', 'be the best'],
+        alternatives: [
+          'understand',
+          'tell something',
+          'be the best',
+          'please',
+          'have fun',
+        ],
       },
     ],
   },
@@ -167,6 +180,34 @@ const bigData = [
   },
 ]
 
+const before = [
+  'where',
+  'because',
+  'even with all the [...] …',
+  'Well,',
+  'Also',
+  'What else do...',
+  'Since when do…',
+  'As long as  (enquanto)',
+  "I'm afraid …",
+  'It could be said that…',
+  'Actually',
+  'l realize',
+  'What I think is that',
+  'I think',
+  "Don't worry",
+  'But since (mas já que)',
+  'Ever since (desde que)',
+  "it's the first time",
+]
+
+const after = [
+  "That's why I thought, ",
+  'right?',
+  'at first, but …',
+  'since … (since you got here) / since the moment I saw you',
+]
+
 export default function PlayPage() {
   const [indexData, setIndexData] = useState(0)
   return (
@@ -181,6 +222,8 @@ export default function PlayPage() {
             return prev + 1
           })
         }
+        before={before}
+        after={after}
       />
     </div>
   )
