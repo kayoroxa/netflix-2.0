@@ -89,7 +89,7 @@ const Carrousel = ({ title, items, small, showInfo = true }: IProps) => {
         ref={carrousel}
         style={{ transform: `translateX(-${translate}px)` }}
       >
-        {items.map((v, i) => (
+        {items.map(v => (
           <div
             className="card"
             key={v.title}
