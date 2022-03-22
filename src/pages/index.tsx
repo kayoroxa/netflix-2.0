@@ -1,3 +1,5 @@
+import { GetServerSideProps } from 'next'
+import { getSession } from 'next-auth/react'
 import Home from '../templates/Home'
 import { _Data } from '../utils/types/_type_data'
 
@@ -37,7 +39,25 @@ const data: _Data = {
   ],
 }
 
-export default function Index() {
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const session = await getSession({ req })
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  return {
+    props: {
+      data,
+    },
+  }
+}
+
+export default function Index({ data }: { data: _Data }) {
   return (
     <Home
       data={data}

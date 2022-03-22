@@ -3,6 +3,32 @@ import CreateSentences from '../../templates/CreateSentences'
 
 const bigData = [
   {
+    rawSentence: '{p} {code} {x} {comp}',
+    replacements: [
+      { id: 'x', alternatives: ['receive', 'need', 'have'] },
+      {
+        id: 'comp',
+        alternatives: ['all my course', 'a code', 'a message'],
+      },
+      {
+        id: 'p',
+        alternatives: ['we', 'you', 'they', 'she', 'i', 'he'],
+      },
+      {
+        id: 'code',
+        alternatives: [
+          'will',
+          "won't",
+          "don't",
+          'would',
+          "wouldn't",
+          'can',
+          'could',
+        ],
+      },
+    ],
+  },
+  {
     rawSentence: '{p+to_be} {adj} {comp}',
     replacements: [
       {
@@ -131,14 +157,14 @@ const bigData = [
     ],
   },
   {
-    rawSentence: '{p+to_be} {intensificador} {x} {mid} {complement}',
+    rawSentence: '{p+to_be} {intensificador} {mid} {complement}',
     replacements: [
       {
         id: 'p+to_be',
         alternatives: ["i'm", "you're", "we're", "she's", "he's"],
       },
       { id: 'intensificador', alternatives: ['really', 'just', '_'] },
-      { id: 'x', alternatives: ['did', "didn't", 'will', "won't", '_'] },
+      // { id: 'x', alternatives: ['did', "didn't", 'will', "won't", '_'] },
       {
         id: 'mid',
         alternatives: ['trying to', 'want to', 'need to'],
@@ -157,8 +183,12 @@ const bigData = [
   },
   {
     rawSentence:
-      "{p} understand {intermediador} {p+to_be} {v+ing} but {p} can't agree",
+      "{p} {*} {intermediador} {p+to_be} {v+ing} but {p} can't agree",
     replacements: [
+      {
+        id: '*',
+        alternatives: ['understand', 'know', 'remember', 'appreciate'],
+      },
       {
         id: 'p',
         alternatives: ['i', 'you', 'we', 'they', 'he', 'she'],
@@ -179,12 +209,18 @@ const bigData = [
     ],
   },
 ]
+//which is why it says
+//but so far
+//the traffic has always been terrible
+//i've always been obsessed with animal behavior
+//every once in a while
 
 const before = [
   'where',
   'because',
   'even with all the [...] …',
   'Well,',
+  'while',
   'Also',
   'What else do...',
   'Since when do…',
@@ -199,6 +235,8 @@ const before = [
   'But since (mas já que)',
   'Ever since (desde que)',
   "it's the first time",
+  'in other words',
+  'but when',
 ]
 
 const after = [

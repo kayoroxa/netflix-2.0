@@ -1,17 +1,19 @@
-const text = 'asdas o {oil} gfaf {oil} {lasd}'
-// result split: ['asdas o', '{oil}', 'gfaf', '{oil}', '{lasd}']
-console.log(
-  //split but not delete delimiter
-  text
-    .split(/(\{.*?\})/g)
-    .map(v => v.trim())
-    .filter(item => item.length > 0)
-)
+//axios update
 
-// .map(item => {
-//   if (item.match(/\{(.*?)\}/g)) {
-//     return item.replace(/\{(.*?)\}/g, '$1')
-//   }
-//   return item
-// })
-// // .filter(item => item.trim().length > 0)
+const axios = require('axios')
+
+axios
+  .get(
+    'https://api.jsonstorage.net/v1/json/05e182a5-66dd-4dfb-b45f-8fd701ea413d/1ed36400-4397-4f37-831b-65ef1cffa821'
+  )
+  .then(function (response) {
+    console.log(response.data)
+  })
+
+//update
+axios.put(
+  'https://api.jsonstorage.net/v1/json/05e182a5-66dd-4dfb-b45f-8fd701ea413d/1ed36400-4397-4f37-831b-65ef1cffa821?apiKey=22edd499-8d3d-43f0-af93-16b0c74eef22',
+  {
+    name: 'Wes Bos',
+  }
+)
