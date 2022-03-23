@@ -1,5 +1,4 @@
 import React from 'react'
-
 import { ContainerCreateSentences } from './styles-create-sentences'
 
 interface IReplacement {
@@ -19,7 +18,7 @@ interface IProps {
   before: string[]
 }
 
-const CreateSentences = ({ data, onNext, before, after }: IProps) => {
+const CreateSentences = ({ data, onNext, before }: IProps) => {
   function generateHtml(data: IData) {
     const { rawSentence, replacements } = data
     const sentence = rawSentence
