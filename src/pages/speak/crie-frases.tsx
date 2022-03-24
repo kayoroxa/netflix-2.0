@@ -3,6 +3,57 @@ import CreateSentences from '../../templates/CreateSentences'
 
 const bigData = [
   {
+    rawSentence: '{p} {tamanho} get {intensidade} {sentimento}',
+    replacements: [
+      {
+        id: 'tamanho',
+        alternatives: ['still', 'really', 'almost'],
+      },
+      {
+        id: 'p',
+        alternatives: ['we', 'you', 'they', 'she', 'i', 'he'],
+      },
+      {
+        id: 'intensidade',
+        alternatives: ['a little bit', 'very', 'so', '_'],
+      },
+      {
+        id: 'sentimento',
+        alternatives: ['nervous', 'anxious', 'sad', 'worried'],
+      },
+    ],
+  },
+  {
+    rawSentence: "it's where {p} {c} {verb} ",
+    replacements: [
+      {
+        id: 'c',
+        alternatives: ['can', 'could', 'would', 'should', 'will', 'did'],
+      },
+      {
+        id: 'p',
+        alternatives: ['we', 'you', 'they', 'she', 'i', 'he'],
+      },
+      {
+        id: 'verb',
+        alternatives: ['put a lot of things', 'go', 'be'],
+      },
+    ],
+  },
+  {
+    rawSentence: '{p+to_be} really excited to {comp}',
+    replacements: [
+      {
+        id: 'p+to_be',
+        alternatives: ["i'm", "you're", "we're", "she's", "he's", "they're"],
+      },
+      {
+        id: 'comp',
+        alternatives: ['show', 'see that', 'watch that', 'try', 'to be here'],
+      },
+    ],
+  },
+  {
     rawSentence: '{p} {code} {x} {comp}',
     replacements: [
       { id: 'x', alternatives: ['receive', 'need', 'have'] },
@@ -50,6 +101,9 @@ const bigData = [
         id: 'adj',
         alternatives: [
           'very',
+          'just',
+          'really',
+          'just really',
           '_',
           // 'hard',
           // 'complicated◽',
@@ -67,6 +121,7 @@ const bigData = [
           'busy',
           'angry',
           'persuasive',
+          'looking forward',
           // 'unnecessary◽',
           // 'story◽',
         ],
@@ -135,7 +190,7 @@ const bigData = [
     rawSentence: 'Why {p} Can {verb+} But {p2} {2verb+}',
     replacements: [
       { id: 'p', alternatives: ['you', 'i', 'they', 'he', 'she'] },
-      { id: 'p2', alternatives: ['me', 'them', 'her', 'him', 'you'] },
+      { id: 'p2', alternatives: ['i', 'they', 'she', 'he', 'you'] },
       { id: 'verb+', alternatives: ['talk 👄', 'see 👀'] },
       { id: '2verb+', alternatives: ["can't", 'never thank'] },
     ],
@@ -222,8 +277,7 @@ const before = [
   'Well,',
   'while',
   'Also',
-  'What else do...',
-  'Since when do…',
+  'sometimes',
   'As long as  (enquanto)',
   "I'm afraid …",
   'It could be said that…',
@@ -237,6 +291,8 @@ const before = [
   "it's the first time",
   'in other words',
   'but when',
+  'What else do...',
+  'Since when do…',
 ]
 
 const after = [
@@ -248,6 +304,7 @@ const after = [
 
 export default function PlayPage() {
   const [indexData, setIndexData] = useState(0)
+
   return (
     <div>
       <CreateSentences

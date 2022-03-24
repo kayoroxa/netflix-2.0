@@ -82,4 +82,9 @@ export const ContainerCreateSentences = styled.div`
       transform: scale(1.05);
     }
   }
+
+  .emphasis {
+    background: white;
+    color: black;
+  }
 `

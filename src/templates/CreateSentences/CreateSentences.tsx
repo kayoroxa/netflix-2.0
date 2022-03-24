@@ -19,6 +19,9 @@ interface IProps {
 }
 
 const CreateSentences = ({ data, onNext, before }: IProps) => {
+  const sampleArrayIndex = (arr: string[]) =>
+    Math.floor(Math.random() * arr.length)
+
   function generateHtml(data: IData) {
     const { rawSentence, replacements } = data
     const sentence = rawSentence
@@ -33,11 +36,19 @@ const CreateSentences = ({ data, onNext, before }: IProps) => {
           replacement => replacement.id === id
         )
         if (replacement) {
+          const randomIndex = sampleArrayIndex(replacement.alternatives)
           return (
             <div className="al" key={index}>
               <div className="al-inside">
                 {replacement.alternatives.map((alternative, key) => (
-                  <div className="al-item word" key={key}>
+                  <div
+                    className={`al-item word ${
+                      randomIndex === key && alternative !== '_'
+                        ? 'emphasis'
+                        : ''
+                    }`}
+                    key={key}
+                  >
                     {alternative}
                   </div>
                 ))}
@@ -47,7 +58,7 @@ const CreateSentences = ({ data, onNext, before }: IProps) => {
         }
       }
 
-      return <div className="word">{word}</div>
+      return <div className="word emphasis">{word}</div>
     })
     return html
   }
