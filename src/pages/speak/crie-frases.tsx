@@ -3,6 +3,24 @@ import CreateSentences from '../../templates/CreateSentences'
 
 const bigData = [
   {
+    rawSentence:
+      '{p} {v} that the way {p} think about {complement} is all wrong',
+    replacements: [
+      {
+        id: 'v',
+        alternatives: ['believe', 'learned', 'know', 'show', 'can say'],
+      },
+      {
+        id: 'p',
+        alternatives: ['we', 'We all', 'you', 'they', 'she', 'i', 'he'],
+      },
+      {
+        id: 'complement',
+        alternatives: ['success', 'failure', 'happiness', 'sadness'],
+      },
+    ],
+  },
+  {
     rawSentence: '{p} {tamanho} get {intensidade} {sentimento}',
     replacements: [
       {
@@ -49,7 +67,7 @@ const bigData = [
       },
       {
         id: 'comp',
-        alternatives: ['show', 'see that', 'watch that', 'try', 'to be here'],
+        alternatives: ['show', 'see that', 'watch that', 'try', 'be here'],
       },
     ],
   },
@@ -168,33 +186,33 @@ const bigData = [
       },
     ],
   },
-  {
-    rawSentence: '{p+to_be} not sure {wq}',
-    replacements: [
-      {
-        id: 'p+to_be',
-        alternatives: ["i'm", "you're", "we're", "she's", "he's"],
-      },
-      { id: 'wq', alternatives: ['why', 'when', 'how much'] },
-    ],
-  },
-  {
-    rawSentence: '{p} {verb} {noun} as well',
-    replacements: [
-      { id: 'verb', alternatives: ['love 💕', 'hate 😡'] },
-      { id: 'noun', alternatives: ['cats 🐱', 'dogs 🐶'] },
-      { id: 'p', alternatives: ['you', 'i', 'they'] },
-    ],
-  },
-  {
-    rawSentence: 'Why {p} Can {verb+} But {p2} {2verb+}',
-    replacements: [
-      { id: 'p', alternatives: ['you', 'i', 'they', 'he', 'she'] },
-      { id: 'p2', alternatives: ['i', 'they', 'she', 'he', 'you'] },
-      { id: 'verb+', alternatives: ['talk 👄', 'see 👀'] },
-      { id: '2verb+', alternatives: ["can't", 'never thank'] },
-    ],
-  },
+  // {
+  //   rawSentence: '{p+to_be} not sure {wq}',
+  //   replacements: [
+  //     {
+  //       id: 'p+to_be',
+  //       alternatives: ["i'm", "you're", "we're", "she's", "he's"],
+  //     },
+  //     { id: 'wq', alternatives: ['why', 'when', 'how much'] },
+  //   ],
+  // },
+  // {
+  //   rawSentence: '{p} {verb} {noun} as well',
+  //   replacements: [
+  //     { id: 'verb', alternatives: ['love 💕', 'hate 😡'] },
+  //     { id: 'noun', alternatives: ['cats 🐱', 'dogs 🐶'] },
+  //     { id: 'p', alternatives: ['you', 'i', 'they'] },
+  //   ],
+  // },
+  // {
+  //   rawSentence: 'Why {p} Can {verb+} But {p2} {2verb+}',
+  //   replacements: [
+  //     { id: 'p', alternatives: ['you', 'i', 'they', 'he', 'she'] },
+  //     { id: 'p2', alternatives: ['i', 'they', 'she', 'he', 'you'] },
+  //     { id: 'verb+', alternatives: ['talk 👄', 'see 👀'] },
+  //     { id: '2verb+', alternatives: ["can't", 'never thank'] },
+  //   ],
+  // },
   {
     rawSentence: '{p} {have} no ideia {complement}',
     replacements: [
@@ -236,33 +254,33 @@ const bigData = [
       },
     ],
   },
-  {
-    rawSentence:
-      "{p} {*} {intermediador} {p+to_be} {v+ing} but {p} can't agree",
-    replacements: [
-      {
-        id: '*',
-        alternatives: ['understand', 'know', 'remember', 'appreciate'],
-      },
-      {
-        id: 'p',
-        alternatives: ['i', 'you', 'we', 'they', 'he', 'she'],
-      },
-      {
-        id: 'p+to_be',
-        alternatives: ["i'm", "you're", "we're", "she's", "he's"],
-      },
-      { id: 'p2', alternatives: ['me', 'them', 'her', 'him', 'you'] },
-      {
-        id: 'intermediador',
-        alternatives: ['everything', 'what', 'why'],
-      },
-      {
-        id: 'v+ing',
-        alternatives: ['saying', 'doing'],
-      },
-    ],
-  },
+  // {
+  //   rawSentence:
+  //     "{p} {*} {intermediador} {p+to_be} {v+ing} but {p} can't agree",
+  //   replacements: [
+  //     {
+  //       id: '*',
+  //       alternatives: ['understand', 'know', 'remember', 'appreciate'],
+  //     },
+  //     {
+  //       id: 'p',
+  //       alternatives: ['i', 'you', 'we', 'they', 'he', 'she'],
+  //     },
+  //     {
+  //       id: 'p+to_be',
+  //       alternatives: ["i'm", "you're", "we're", "she's", "he's"],
+  //     },
+  //     { id: 'p2', alternatives: ['me', 'them', 'her', 'him', 'you'] },
+  //     {
+  //       id: 'intermediador',
+  //       alternatives: ['everything', 'what', 'why'],
+  //     },
+  //     {
+  //       id: 'v+ing',
+  //       alternatives: ['saying', 'doing'],
+  //     },
+  //   ],
+  // },
 ]
 //which is why it says
 //but so far
