@@ -40,6 +40,13 @@ const data: _Data = {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  return {
+    redirect: {
+      destination: '/linguagem-transferida',
+      permanent: false,
+    },
+  }
+
   const session = await getSession({ req })
   if (!session) {
     return {

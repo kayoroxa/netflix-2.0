@@ -4,8 +4,272 @@ import CreateSentences from '../../templates/CreateSentences'
 const bigData = [
   {
     rawSentence:
-      '{p} {v} that the way {p} think about {complement} is all wrong',
+      "it's {s/n} {because} lack of {causa} but for lack of commitment",
     replacements: [
+      {
+        id: 'p',
+        alternatives: [
+          `I`,
+          `you`,
+          `he`,
+          `she`,
+          `we`,
+          `they`,
+          `people`,
+          'many people',
+        ],
+      },
+      {
+        id: 's/n',
+        alternatives: ['not', '_'],
+      },
+      {
+        id: 'because',
+        alternatives: ['because of a', 'for'],
+      },
+      {
+        id: 'causa',
+        alternatives: ['ability', 'creativity', 'capacity'],
+      },
+    ],
+  },
+  {
+    rawSentence: 'this is {before} {adj} reason {p} {after}',
+    replacements: [
+      {
+        id: 'p',
+        alternatives: [
+          `I`,
+          `you`,
+          `he`,
+          `she`,
+          `we`,
+          `they`,
+          `people`,
+          'many people',
+        ],
+      },
+      {
+        id: 'before',
+        alternatives: ['one of the', 'another', 'the'],
+      },
+      {
+        id: 'adj',
+        alternatives: ['big', 'biggest', 'best', 'same', '_'],
+      },
+      {
+        id: 'after',
+        alternatives: ['end up giving up', 'do it now', 'enjoy it'],
+      },
+    ],
+  },
+  {
+    rawSentence: '{p} will {time} be able to {comp}',
+    replacements: [
+      {
+        id: 'p',
+        alternatives: [`I`, `My mon`, `you`, `he`, `she`, `we`, `they`, `it`],
+      },
+      {
+        id: 'comp',
+        alternatives: [`stop me`, 'do it right', 'do it fast', 'do it well'],
+      },
+      {
+        id: 'time',
+        alternatives: ['not', 'always', 'never', '_'],
+      },
+    ],
+  },
+  {
+    rawSentence: '{p} will {time} be able to {comp}',
+    replacements: [
+      {
+        id: 'p',
+        alternatives: [`I`, `My mon`, `you`, `he`, `she`, `we`, `they`, `it`],
+      },
+      {
+        id: 'comp',
+        alternatives: [`stop me`, 'do it right', 'do it fast', 'do it well'],
+      },
+      {
+        id: 'time',
+        alternatives: ['not', 'always', 'never', '_'],
+      },
+    ],
+  },
+  {
+    rawSentence: '{p} {plus} {have} {time} been {v3}',
+    replacements: [
+      {
+        id: 'p',
+        alternatives: [`I`, `My mon`, `you`, `he`, `she`, `we`, `they`, `it`],
+      },
+      {
+        id: 'plus',
+        alternatives: [`could`, `should`, `_`],
+      },
+      {
+        id: 'have',
+        alternatives: [`have | has`, `'ve | 's`],
+      },
+      {
+        id: 'time',
+        alternatives: ['always', 'never'],
+      },
+      {
+        id: 'v3',
+        alternatives: ['obsessed', 'done', 'talked'],
+      },
+    ],
+  },
+  {
+    rawSentence: 'what {cod+p} {adj} {comp}',
+    replacements: [
+      {
+        id: 'adj',
+        alternatives: [
+          'want to pretend',
+          'want to show',
+          'want to impress',
+          'want to prove',
+          'mean',
+        ],
+      },
+      {
+        id: 'cod+p',
+        alternatives: [
+          'do we',
+          'do we all',
+          'do you',
+          'do they',
+          'does she',
+          'do i',
+          'does he',
+          'does Jack',
+        ],
+      },
+      {
+        id: 'comp',
+        alternatives: ['to you', 'to me', 'to him', 'by that'],
+      },
+    ],
+  },
+  {
+    rawSentence: 'if {p+to_be} trying to {adj} that {p} {what}',
+    replacements: [
+      {
+        id: 'adj',
+        alternatives: ['pretend', 'show', 'impress', 'prove'],
+      },
+      {
+        id: 'p',
+        alternatives: ['we', 'we all', 'you', 'they', 'she', 'i', 'he'],
+      },
+      {
+        id: 'p+to_be',
+        alternatives: [
+          "i'm",
+          "it's",
+          "you're",
+          "we're",
+          "she's",
+          "he's",
+          "they're",
+        ],
+      },
+      {
+        id: 'what',
+        alternatives: ['speak languages', 'play piano', 'recommend this'],
+      },
+    ],
+  },
+  {
+    rawSentence: '{p+to_be} not {adj} supposed to be {comp}',
+    replacements: [
+      {
+        id: 'adj',
+        alternatives: ['even', 'still', '_'],
+      },
+      {
+        id: 'p+to_be',
+        alternatives: [
+          "i'm",
+          "it's",
+          "you're",
+          "we're",
+          "she's",
+          "he's",
+          "they're",
+        ],
+      },
+      {
+        id: 'comp',
+        alternatives: ['here', 'there', 'able to do it', 'talking that'],
+      },
+    ],
+  },
+  {
+    rawSentence: 'when {p} get asked {question}',
+    replacements: [
+      {
+        id: 'question',
+        alternatives: ['if we could live', 'about it'],
+      },
+      {
+        id: 'p',
+        alternatives: ['we', 'we all', 'you', 'they', 'she', 'i', 'he'],
+      },
+    ],
+  },
+  {
+    rawSentence: '{p} {think} there is no {complement} for {p} do it',
+    replacements: [
+      {
+        id: 'excuse',
+        alternatives: ['excuse', 'reason', 'why'],
+      },
+      {
+        id: 'think',
+        alternatives: ['think', 'believes', 'thought'],
+      },
+      {
+        id: 'adj',
+        alternatives: ['sickened', 'tall', 'curious', 'happy'],
+      },
+      {
+        id: 'p+to_be',
+        alternatives: ["i'm", "you're", "we're", "she's", "he's", "they're"],
+      },
+      {
+        id: 'p',
+        alternatives: ['we', 'We all', 'you', 'they', 'she', 'i', 'he', 'cat'],
+      },
+    ],
+  },
+  {
+    rawSentence: '{p+to_be} as {adj} as {p}',
+    replacements: [
+      {
+        id: 'adj',
+        alternatives: ['sickened', 'tall', 'curious', 'happy'],
+      },
+      {
+        id: 'p+to_be',
+        alternatives: ["i'm", "you're", "we're", "she's", "he's", "they're"],
+      },
+      {
+        id: 'p',
+        alternatives: ['we', 'We all', 'you', 'they', 'she', 'i', 'he', 'cat'],
+      },
+    ],
+  },
+  {
+    rawSentence: '{p} {v} that the way {p} {verb} {complement} is all wrong',
+    replacements: [
+      {
+        id: 'verb',
+        alternatives: ['deal with', 'think about'],
+      },
       {
         id: 'v',
         alternatives: ['believe', 'learned', 'know', 'show', 'can say'],
@@ -25,7 +289,7 @@ const bigData = [
     replacements: [
       {
         id: 'tamanho',
-        alternatives: ['still', 'really', 'almost'],
+        alternatives: ['still', 'really', 'almost', 'probably', 'mostly'],
       },
       {
         id: 'p',
@@ -42,8 +306,12 @@ const bigData = [
     ],
   },
   {
-    rawSentence: "it's where {p} {c} {verb} ",
+    rawSentence: "it's where {p} {x} {c} {verb} ",
     replacements: [
+      {
+        id: 'x',
+        alternatives: ['mostly', '_'],
+      },
       {
         id: 'c',
         alternatives: ['can', 'could', 'would', 'should', 'will', 'did'],
@@ -59,8 +327,17 @@ const bigData = [
     ],
   },
   {
-    rawSentence: '{p+to_be} really excited to {comp}',
+    rawSentence: '{p+to_be} {want} to {comp}',
     replacements: [
+      {
+        id: 'want',
+        alternatives: [
+          'discouraged',
+          'really excited',
+          'more than capable',
+          'unable',
+        ],
+      },
       {
         id: 'p+to_be',
         alternatives: ["i'm", "you're", "we're", "she's", "he's", "they're"],
@@ -77,7 +354,13 @@ const bigData = [
       { id: 'x', alternatives: ['receive', 'need', 'have'] },
       {
         id: 'comp',
-        alternatives: ['all my course', 'a code', 'a message'],
+        alternatives: [
+          'all my course',
+          'a code',
+          'a message',
+          'an order',
+          'a letter',
+        ],
       },
       {
         id: 'p',
@@ -214,8 +497,12 @@ const bigData = [
   //   ],
   // },
   {
-    rawSentence: '{p} {have} no ideia {complement}',
+    rawSentence: '{p} {have} {ideia} {complement}',
     replacements: [
+      {
+        id: 'ideia',
+        alternatives: ['no ideia', 'ideia'],
+      },
       { id: 'p', alternatives: ['i', 'you', 'we', 'they'] },
       { id: 'have', alternatives: ['have', 'had', 'really have', "'ve"] },
       {
@@ -290,12 +577,18 @@ const bigData = [
 
 const before = [
   'where',
+  'as {strange} as it might sound',
+  "As far as l'm concerned",
   'because',
+  'seems odd that',
   'even with all the [...] …',
   'Well,',
   'while',
   'Also',
+  'though',
+  'although (apesar)',
   'sometimes',
+  'enjoy it now before',
   'As long as  (enquanto)',
   "I'm afraid …",
   'It could be said that…',
@@ -309,8 +602,8 @@ const before = [
   "it's the first time",
   'in other words',
   'but when',
-  'What else do...',
-  'Since when do…',
+  'What else do/does (O quê mais)',
+  'Since when do/does (Desde quando)',
 ]
 
 const after = [
