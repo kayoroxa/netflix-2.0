@@ -1,15 +1,15 @@
+import BezierEasing from 'bezier-easing'
 import { useEffect, useRef, useState } from 'react'
 import { BiArrowBack, BiFullscreen } from 'react-icons/bi'
 import { FaPause, FaPlay } from 'react-icons/fa'
 import YouTube from 'react-youtube'
 import { YouTubePlayer } from 'youtube-player/dist/types'
 import { ContainerMrPlayer } from './styles-mr-player'
-
 interface IProps {
   videoId: string
   onGoBack?: () => void
 }
-
+const easing = BezierEasing(0.07, 0.67, 0.17, 1.01)
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
 const MrPlayer = ({ videoId, onGoBack }: IProps) => {
@@ -34,9 +34,10 @@ const MrPlayer = ({ videoId, onGoBack }: IProps) => {
         const currentTime = await videoTarget?.getCurrentTime()
         const duration = await videoTarget?.getDuration()
 
-        const percent = (currentTime / duration) * 100
-        // console.log(Math.round(percent))
-        setVideoPercent(percent)
+        const percent = currentTime / duration
+        const easyPercent = easing(percent) * 100
+
+        setVideoPercent(easyPercent)
       }, 1000)
 
       return () => clearInterval(interval)
@@ -102,21 +103,30 @@ const MrPlayer = ({ videoId, onGoBack }: IProps) => {
       <div className="container-video">
         <div className="aviso-video">Carregando video...</div>
 
-        <YouTube
-          className="yt-vid"
-          videoId={videoId}
-          opts={{ playerVars: { modestbranding: 1, fs: 0, showinfo: 0 } }}
-          onReady={_onReady}
-          onPause={() => setIsPaused(true)}
-          onPlay={async () => {
-            await delay(350)
-            setIsPaused(false)
-          }}
-          onEnd={({ target }) => {
-            target.seekTo(0, true)
-            setIsPaused(true)
-          }}
-        />
+        <div style={{ opacity: !isPaused ? '1' : '0' }}>
+          <YouTube
+            className="yt-vid"
+            videoId={videoId}
+            opts={{
+              playerVars: {
+                modestbranding: 1,
+                fs: 0,
+                showinfo: 0,
+                controls: 0,
+              },
+            }}
+            onReady={_onReady}
+            onPause={() => setIsPaused(true)}
+            onPlay={async () => {
+              await delay(360)
+              setIsPaused(false)
+            }}
+            onEnd={({ target }) => {
+              target.seekTo(0, true)
+              setIsPaused(true)
+            }}
+          />
+        </div>
 
         <div
           className="overlay"
@@ -138,7 +148,7 @@ const MrPlayer = ({ videoId, onGoBack }: IProps) => {
           <div
             className="thumb"
             onClick={() => videoTarget?.playVideo()}
-            style={{ display: isPaused ? 'flex' : 'none' }}
+            style={{ display: isPaused && videoTarget ? 'flex' : 'none' }}
           >
             <img
               src="https://i.ibb.co/zNWbFBh/C-pia-de-Aperte-o-Play.jpg"
