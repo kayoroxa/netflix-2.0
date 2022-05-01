@@ -6,13 +6,14 @@ interface IProps {
 
 export const ContainerMrPlayer = styled.div<IProps>`
   /* height: ${props => (props.isFullScreen ? '100vh' : '500px')}; */
-  width: 600px;
+  width: min(100vw, 100vh);
   /* height: 200px; */
   display: flex;
   flex-direction: column;
   align-items: center;
   background: pink;
   position: relative;
+  /* border: 2px solid #4a507c; */
 
   * {
     box-sizing: border-box;
@@ -22,8 +23,8 @@ export const ContainerMrPlayer = styled.div<IProps>`
     background: blue;
     /* position: absolute; */
     width: ${props => (props.isFullScreen ? '100vw' : '500px')};
-    padding-bottom: 56.25%; /* 16:9 */
-    height: 0;
+    padding-bottom: ${props => (props.isFullScreen ? '0' : '56.25%')};
+    height: ${props => (props.isFullScreen ? '100vh' : '0')};
 
     .aviso-video,
     .overlay,
@@ -61,13 +62,26 @@ export const ContainerMrPlayer = styled.div<IProps>`
       /* align-items: center; */
       /* justify-content: center; */
 
+      :before {
+        content: '';
+        position: absolute;
+
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: ${props => (props.isFullScreen ? '8px' : '5px')};
+        background: gray;
+        opacity: 0.1;
+      }
+
       .progress-bar {
         position: absolute;
         bottom: 0;
+        opacity: 0.5;
         left: 0;
         width: 0%;
-        height: 5px;
-        background: lightBlue;
+        height: ${props => (props.isFullScreen ? '8px' : '5px')};
+        background: red;
       }
     }
 
@@ -89,12 +103,15 @@ export const ContainerMrPlayer = styled.div<IProps>`
         :hover {
           transform: scale(1.2);
         }
+        stroke: black;
+        stroke-width: 1px;
+        opacity: ${props => (props.isFullScreen ? '0.7' : '0.2')};
+        color: gray;
       }
 
       .fullScreen {
         /* background: pink; */
         svg {
-          color: white;
           /* size */
           width: 35px;
           height: 35px;
@@ -104,7 +121,7 @@ export const ContainerMrPlayer = styled.div<IProps>`
         /* background: pink; */
         overflow: visible;
         svg {
-          color: white;
+          stroke-width: 10px;
           /* size */
           width: 30px;
           height: 30px;
