@@ -1,6 +1,5 @@
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
-import stringSimilarity from 'string-similarity'
 import { ContainerMemori } from './styles-memori'
 
 interface IProps {}
@@ -25,9 +24,16 @@ const dict = {
     ['many people think', 'muita gente acha que'],
     ['sorry to interrupt you', 'desculpa te interromper'],
     ["Let's suppose that", 'vamos supor que'],
+    ['that was the time', 'essa foi a época que'],
+    ['who assures me that', 'quem me garante que'],
+    ['as far as I know', 'até onde eu sei'],
+    ['it can be said that', 'pode ser dito que'],
+    ['but the day', 'mas no dia que'],
+    ['the question is that', 'a questão é que'],
+    ["but it's not that", 'mas não é que'],
   ],
   SS: [
-    ['a person who is not acting', 'uma pessoa que não está agindo'],
+    ['a person who is not acting', 'uma pessoa que não está agindo', true],
     [
       "It's like she's slowly dying",
       'é como se ela estivesse morrendo lentamente',
@@ -36,6 +42,7 @@ const dict = {
     [
       'everyone has the right to think so',
       'todos têm o direito de pensar assim',
+      true,
     ],
     ['it is a matter of opinion', 'é uma questão de opinião'],
     [
@@ -52,30 +59,46 @@ const dict = {
     ['it was basically a year', 'foi basicamente um ano'],
     ['in a period of 2 weeks', 'num período de 2 semanas'],
     ['technically you will do it', 'tecnicamente você vai fazer isso'],
+    ['it was a lot of money', 'era muita grana'],
+    ['at the time', 'na época', true],
+    ['it was fun', 'isso era divertido'],
+
+    ['I lost my car', 'eu perdi meu carro'],
+    ['I had just woken up', 'eu tinha acabado de acordar'],
+    ['she had just finished', 'ela tinha acabado de terminar'],
+
+    ["they don't miss anything", 'eles não perde nada'],
+    ['we only find out when it happens', 'a gente só descobre quando acontece'],
+    ['they have to work it out', 'eles têm que resolver isso'],
+    ['as far as i know', 'até onde eu saiba'],
+    ['we did the right thing', 'nós fizemos a coisa certa'],
+  ],
+  JS: [
+    ['and', 'e'],
+    ['not to mention', 'sem falar que'],
+    ['it depends if', 'depende se'],
   ],
 }
 
 const Memori = ({}: IProps) => {
   function generateSentence() {
+    const last = _.sample(dict.SS)
     return [
       _.sample(dict.SS_Start),
       _.sample(dict.SS),
-      ['and', 'e'],
-      _.sample(dict.SS),
+      !last?.[2] && _.sample(dict.JS),
+      last,
     ]
   }
 
   const [sentence, setSentence] = useState(generateSentence())
 
-  const sentence_pt = `${sentence[0]?.[1]} ${sentence[1]?.[1]} ${sentence[2]?.[1]}`
-  const sentence_en = `${sentence[0]?.[0]} ${sentence[1]?.[0]} ${sentence[2]?.[0]}`
+  // var similarity = stringSimilarity.compareTwoStrings(
+  //   'do you have any idia whats is it',
+  //   'do you ave any ideia what is '
+  // )
 
-  var similarity = stringSimilarity.compareTwoStrings(
-    'do you have any idia whats is it',
-    'do you ave any ideia what is '
-  )
-
-  const [showTranslate, setShowTranslate] = useState(false)
+  const [showTranslate, setShowTranslate] = useState(true)
 
   useEffect(() => {
     //on key
@@ -101,13 +124,13 @@ const Memori = ({}: IProps) => {
         ))}
       </p> */}
       <div className="container">
-        <p>{sentence.map(ss => ss?.[1]).join(' ')}</p>
+        <p>{sentence.map((ss: any) => ss?.[1]).join(' ')}</p>
         <p
           style={{
             opacity: showTranslate ? '1' : '0',
           }}
         >
-          {sentence.map(ss => ss?.[0]).join(' ')}
+          {sentence.map((ss: any) => ss?.[0]).join(' ')}
         </p>
       </div>
     </ContainerMemori>

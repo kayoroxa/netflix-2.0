@@ -10,6 +10,7 @@ export const ContainerCreateSentences = styled.div`
     font-size: 1.3rem;
     color: white;
     font-family: 'Roboto', sans-serif;
+    transition: all 0.3s ease-in-out;
   }
   .app {
     width: 100%;
@@ -33,6 +34,10 @@ export const ContainerCreateSentences = styled.div`
     border-style: dashed;
     max-height: 85vh;
     flex-direction: column;
+
+    :hover {
+      border-color: white;
+    }
   }
 
   .al-inside {
@@ -57,6 +62,10 @@ export const ContainerCreateSentences = styled.div`
     text-align: center;
     text-transform: lowercase;
     overflow: hidden;
+
+    :hover {
+      background: pink;
+    }
   }
 
   .word.small {

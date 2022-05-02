@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-
-import { ContainerPlay } from './styles-play'
-import { BiArrowBack } from 'react-icons/bi'
 import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
+import { BiArrowBack } from 'react-icons/bi'
 import YouTube from 'react-youtube'
+import { ContainerPlay } from './styles-play'
+
 interface IProps {
   id: string
   gDrive?: boolean
@@ -13,50 +13,27 @@ const Play = ({ id, gDrive }: IProps) => {
   const ref = React.useRef<HTMLDivElement>(null)
   const goBack = React.useRef<HTMLDivElement>(null)
 
-  function openFullscreen(elem: any) {
-    if (elem.requestFullscreen) {
-      console.log(elem)
-      try {
-        elem?.requestFullscreen()
-      } catch (error) {
-        console.log('oio')
+  function toggleFullScreen(elem: any) {
+    if (!document.fullscreenElement) {
+      if (elem.requestFullscreen) {
+        console.log(elem)
+        try {
+          elem?.requestFullscreen()
+        } catch (error) {
+          console.log('oio')
+        }
+      } else if (elem.webkitRequestFullscreen) {
+        elem.webkitRequestFullscreen()
+      } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen()
       }
-    } else if (elem.webkitRequestFullscreen) {
-      elem.webkitRequestFullscreen()
-    } else if (elem.msRequestFullscreen) {
-      elem.msRequestFullscreen()
+      screen.orientation.lock('landscape-primary')
+    } else {
+      document.exitFullscreen()
+      screen.orientation.lock('portrait-primary')
     }
-
-    screen.orientation.lock('landscape-primary')
   }
 
-  // function closeFullscreen() {
-  //   if (document.exitFullscreen) {
-  //     document.exitFullscreen()
-  //   } else if (document.webkitExitFullscreen) {
-  //     /* Safari */
-  //     document.webkitExitFullscreen()
-  //   } else if (document.msExitFullscreen) {
-  //     /* IE11 */
-  //     document.msExitFullscreen()
-  //   }
-  // }
-
-  // let timeOut: NodeJS.Timeout | null = null
-  // function onMouseMove() {
-  //   console.log('mouse move')
-  //   if (goBack.current) {
-  //     if (timeOut) clearTimeout(timeOut)
-  //     goBack.current.style.opacity = '1'
-
-  //     timeOut = setTimeout(() => {
-  //       if (goBack.current) {
-  //         goBack.current.style.opacity = '0'
-  //       }
-  //     }, 1000)
-  //   }
-  // }
-  // const [videoTarget, setVideoTarget] = useState<any>(null)
   const [showControls, setShowControls] = useState(false)
   function _onReady(event: any) {
     // setVideoTarget(event.target)
@@ -79,7 +56,7 @@ const Play = ({ id, gDrive }: IProps) => {
       return isMobile
     }
     if (ref.current && _isMobile()) {
-      openFullscreen(ref.current)
+      toggleFullScreen(ref.current)
     }
   }, [ref])
   // useEffect(() => {
@@ -101,7 +78,7 @@ const Play = ({ id, gDrive }: IProps) => {
       </div>
       {showControls && <div className="controls--player"></div>}
       <div className="container-video">
-        <div className="anti" onClick={() => openFullscreen(ref.current)}>
+        <div className="anti" onClick={() => toggleFullScreen(ref.current)}>
           {!gDrive ? (
             // <iframe
             //   width="560"

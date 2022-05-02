@@ -12,6 +12,7 @@ export const ContainerMemori = styled.div`
 
   .container {
     width: 100%;
+    height: 80vh;
     /* min-height: 100vh; */
     /* background: pink; */
     padding: 30px;
@@ -20,8 +21,8 @@ export const ContainerMemori = styled.div`
     flex-direction: column;
     /* align-items: end */
     align-items: center;
-    justify-content: center;
-    gap: 60vw;
+    justify-content: space-between;
+    /* gap: 60vw; */
 
     /* children 1 */
   }
