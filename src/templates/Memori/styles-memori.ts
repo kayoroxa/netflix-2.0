@@ -32,11 +32,12 @@ export const ContainerMemori = styled.div`
 
   p {
     display: flex;
-    /* gap: 0.1rem; */
+    gap: 0.3rem;
 
     span {
-      /* background: #282828; */
-      /* padding: 0.5vw; */
+      background: #3b5998;
+      padding: 0.5vw;
+      color: white;
     }
   }
 `

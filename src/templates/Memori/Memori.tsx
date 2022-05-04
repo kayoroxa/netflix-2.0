@@ -6,31 +6,32 @@ interface IProps {}
 
 const dict = {
   p: [
-    'i',
-    'you',
-    'he',
-    'she',
-    'it',
-    'we',
-    'they',
-    'the other guy',
-    'many people',
+    ['i', 'eu'],
+    ['you', 'você'],
+    ['he', 'ele'],
+    ['she', 'ela'],
+    ['it', 'isso'],
+    ['we', 'nós'],
+    ['they', 'eles'],
+    ['the other guy', 'os outros caras'],
+    ['many people', 'muita gente'],
   ],
-  p_pt: ['eu', 'tu', 'ele', 'ela', 'ele', 'nós', 'eles', 'o outro'],
   SS_Start: [
     ['but it became clear that', 'mas ficou claro que'],
     ['there comes a point in life', 'chega um ponto na vida que'],
     ['there is a concept', 'existe um conceito que'],
-    ['many people think', 'muita gente acha que'],
-    ['sorry to interrupt you', 'desculpa te interromper'],
-    ["Let's suppose that", 'vamos supor que'],
-    ['that was the time', 'essa foi a época que'],
-    ['who assures me that', 'quem me garante que'],
+    ['many people think', '👥muita gente 🧠acha que'],
+    ['sorry to interrupt you', '🤭desculpa te interromper'],
+    ["Let's suppose that", '🧐vamos supor que'],
+    ['that was the time', '🦕essa foi a época que'],
+    ['who assures me that', '🖋quem me garante que'],
     ['as far as I know', 'até onde eu sei'],
     ['it can be said that', 'pode ser dito que'],
     ['but the day', 'mas no dia que'],
     ['the question is that', 'a questão é que'],
-    ["but it's not that", 'mas não é que'],
+    ["but it's not that", '⛔mas não é que'],
+    ["it's all because", 'tudo porque'],
+    ["That's when", '🤔Foi quando'],
   ],
   SS: [
     ['a person who is not acting', 'uma pessoa que não está agindo', true],
@@ -51,6 +52,7 @@ const dict = {
     ],
     ["you don't want to know anymore", 'você não quer mais saber'],
     ['we are smarts', 'nós somos espertos'],
+    ['for the past two weeks', 'nas últimas duas semanas'],
     [
       'the crowd is focused on just selling',
       'a galera está focada em apenas vender',
@@ -79,6 +81,34 @@ const dict = {
     ['it depends if', 'depende se'],
   ],
 }
+
+// function changePlaceHolders(dicts: string[]) {
+//   return dicts.map(dic => {
+//     if (dic.includes('{p}')) {
+//       const random = _.sample(dict.p)
+//       console.log({ random })
+//       if (!random) return dic
+//       return [
+//         dic[0].replace(/\{p\}/g, random[0]),
+//         dic[1].replace(/\{p\}/g, random[1]),
+//       ]
+//     } else {
+//       return dic
+//     }
+//   })
+// }
+
+// function putPlaceHolder(dict: (string | boolean)[] | undefined) {
+//   if (!dict) return
+//   if (typeof dict[0] === 'string' && typeof dict[1] === 'string') {
+//     console.log('oii')
+//     const newDict: any[] = dict
+//     const [pt, en] = changePlaceHolders(newDict.slice(0, 2))
+//     newDict[0] = pt
+//     newDict[1] = en
+//     return newDict
+//   }
+// }
 
 const Memori = ({}: IProps) => {
   function generateSentence() {
@@ -124,13 +154,23 @@ const Memori = ({}: IProps) => {
         ))}
       </p> */}
       <div className="container">
-        <p>{sentence.map((ss: any) => ss?.[1]).join(' ')}</p>
+        <p>
+          {sentence
+            .filter((v: any) => v?.[0])
+            .map((ss: any) => (
+              <span>{ss?.[1]}</span>
+            ))}
+        </p>
         <p
           style={{
             opacity: showTranslate ? '1' : '0',
           }}
         >
-          {sentence.map((ss: any) => ss?.[0]).join(' ')}
+          {sentence
+            .filter((v: any) => v?.[0])
+            .map((ss: any) => (
+              <span>{ss?.[0]}</span>
+            ))}
         </p>
       </div>
     </ContainerMemori>
