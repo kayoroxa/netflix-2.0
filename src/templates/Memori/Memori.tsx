@@ -107,13 +107,29 @@ export default function Memori({}: IProps) {
     [key: string]: number
   }>('historic', {})
 
-  function generateSentenceByPattern(pattern: string) {
+  function generateSentenceByPattern(pattern: string, random = false) {
     const keys = pattern
       .match(/(?<=\{).*?(?=\})/g)
       ?.filter(key => (key.includes('!') ? _.sample([true, false]) : true))
 
     const sentence = keys?.map(key => {
       const keyWithoutOptional = key.replace('!', '')
+
+      if (!random && value) {
+        const ordenado = Object.entries(value)
+          .sort(([, a], [, b]) => a - b)
+          .map(v => v[0])
+
+        const onlyEnDictRandom = dict[keyWithoutOptional].map(
+          (v: string[]) => v[0]
+        )
+        const findEn = ordenado.find(v => onlyEnDictRandom.includes(v))
+        const findDict = dict[keyWithoutOptional].find(
+          (v: string[]) => v[0] === findEn
+        )
+        // console.log(findDict)
+        return findDict ? findDict : _.sample(dict[keyWithoutOptional])
+      }
 
       return _.sample(dict[keyWithoutOptional])
     })
@@ -184,7 +200,7 @@ export default function Memori({}: IProps) {
     if (score > 4) return 'green'
     if (score > 2) return '#cdcd3c'
     if (score > 0) return 'orange'
-    if (score < 0) return 'red'
+    if (score <= 0) return 'red'
   }
 
   return (
