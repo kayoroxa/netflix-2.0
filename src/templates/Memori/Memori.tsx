@@ -1,10 +1,11 @@
 import _ from 'lodash'
 import React, { useEffect, useState } from 'react'
+import { useLocalStorage } from 'react-use'
 import { ContainerMemori } from './styles-memori'
 
 interface IProps {}
 
-const dict = {
+const dict: any = {
   p: [
     ['i', 'eu'],
     ['you', 'você'],
@@ -16,112 +17,118 @@ const dict = {
     ['the other guy', 'os outros caras'],
     ['many people', 'muita gente'],
   ],
-  SS_Start: [
-    ['but it became clear that', 'mas ficou claro que'],
+  complete: [
+    //
+    ['sorry to interrupt you', '🤭desculpa te interromper'],
+    ['I am sorry!', '🤭desculpa!'],
+    ['I get it!', 'eu entendi!'],
+  ],
+
+  antesDoQue: [
+    ['but', 'mas'],
+    ['however', 'porém'],
+    ['even so', 'mesmo assim'],
+  ], //'not to mention'],
+  que: [
+    ['it became clear', 'ficou claro que'],
     ['there comes a point in life', 'chega um ponto na vida que'],
     ['there is a concept', 'existe um conceito que'],
     ['many people think', '👥muita gente 🧠acha que'],
-    ['sorry to interrupt you', '🤭desculpa te interromper'],
     ["Let's suppose that", '🧐vamos supor que'],
     ['that was the time', '🦕essa foi a época que'],
     ['who assures me that', '🖋quem me garante que'],
-    ['as far as I know', 'até onde eu sei'],
     ['it can be said that', 'pode ser dito que'],
-    ['but the day', 'mas no dia que'],
+    ["it's on the day", 'é no dia que'],
     ['the question is that', 'a questão é que'],
-    ["but it's not that", '⛔mas não é que'],
-    ["it's all because", 'tudo porque'],
-    ["That's when", '🤔Foi quando'],
+    ["it's not that", '⛔não é que'],
   ],
-  SS: [
-    ['a person who is not acting', 'uma pessoa que não está agindo', true],
-    [
-      "It's like she's slowly dying",
-      'é como se ela estivesse morrendo lentamente',
-    ],
-
-    [
-      'everyone has the right to think so',
-      'todos têm o direito de pensar assim',
-      true,
-    ],
-    ['it is a matter of opinion', 'é uma questão de opinião'],
-    [
-      'the better your relationship the better you do things',
-      'quanto melhor seu relacionamento melhor você faz as coisas',
-    ],
-    ["you don't want to know anymore", 'você não quer mais saber'],
+  completeDpsDoQue: [
     ['we are smarts', 'nós somos espertos'],
-    ['for the past two weeks', 'nas últimas duas semanas'],
+
+    ['technically you will do it', 'tecnicamente você vai fazer isso'],
+    ['it was a lot of money', 'era muita grana'],
+    ['it was fun', 'isso era divertido'],
+    ['technically you will do it', 'tecnicamente você vai fazer isso'],
+    ["I've tried over a thousand things", 'eu já tentei mais de mil coisas'],
+
     [
       'the crowd is focused on just selling',
       'a galera está focada em apenas vender',
     ],
-    ["I've tried over a thousand things", 'eu já tentei mais de mil coisas'],
-    ['it was basically a year', 'foi basicamente um ano'],
-    ['in a period of 2 weeks', 'num período de 2 semanas'],
-    ['technically you will do it', 'tecnicamente você vai fazer isso'],
-    ['it was a lot of money', 'era muita grana'],
-    ['at the time', 'na época', true],
-    ['it was fun', 'isso era divertido'],
-
     ['I lost my car', 'eu perdi meu carro'],
-    ['I had just woken up', 'eu tinha acabado de acordar'],
-    ['she had just finished', 'ela tinha acabado de terminar'],
-
-    ["they don't miss anything", 'eles não perde nada'],
-    ['we only find out when it happens', 'a gente só descobre quando acontece'],
-    ['they have to work it out', 'eles têm que resolver isso'],
-    ['as far as i know', 'até onde eu saiba'],
     ['we did the right thing', 'nós fizemos a coisa certa'],
   ],
-  JS: [
-    ['and', 'e'],
-    ['not to mention', 'sem falar que'],
-    ['it depends if', 'depende se'],
+  completeAntTime: [
+    ['I had just woken up', 'eu tinha acabado de acordar🛏'],
+    ['she had just finished', '👩ela tinha acabado de terminar✅'],
+    ['we had just arrived', '👩‍👩‍👧‍👧nós tinhamos acabado de chegar🚙'],
+    [
+      'we only find out when it happens',
+      '👩‍👩‍👧‍👧a gente só descobre quando acontece',
+    ],
+    ["you don't want to know anymore", 'você não quer MAIS saber'],
+    ['it was basically one year studying', 'foi basicamente 1 ano estudando'],
+    ['it was one year studying', 'foi 1 ano estudando'],
+  ],
+  incompleteTimeDpsDoQue: [
+    ['at the time', 'na época'],
+    ['in a 2 week period', 'num período de 2 semanas'],
+    ['in the last 2 weeks', 'nas últimas duas semanas'],
+  ],
+  incompleteDpsDoQue: [
+    //
+    ['as far as I know', 'até onde eu sei'],
+    ['as far as I can remember', 'até onde eu consigo lembrar'],
+    ['you are sure that', 'você tem certeza que'],
+  ],
+  tempo: [["That's when", '🤔Foi quando']],
+  others: [
+    //
+
+    ["it's all because", 'é tudo porque'],
+  ],
+  dpsOthers: [
+    //
+    ['it was a lot of money', 'era muita grana'],
+    ['a person who is not acting', 'uma pessoa que não está agindo'],
+    ['it is a matter of opinion', 'é uma questão de opinião', true],
   ],
 }
 
-// function changePlaceHolders(dicts: string[]) {
-//   return dicts.map(dic => {
-//     if (dic.includes('{p}')) {
-//       const random = _.sample(dict.p)
-//       console.log({ random })
-//       if (!random) return dic
-//       return [
-//         dic[0].replace(/\{p\}/g, random[0]),
-//         dic[1].replace(/\{p\}/g, random[1]),
-//       ]
-//     } else {
-//       return dic
-//     }
-//   })
-// }
+const patterns = [
+  // '{!complete} {!antesDoQue} {que} {completeDpsDoQue} {!incompleteTimeDpsDoQue}',
+  // '{!complete} {!antesDoQue} {que} {incompleteTimeDpsDoQue} {completeDpsDoQue} ',
+  // '{!complete} {antesDoQue} {completeDpsDoQue} {!incompleteTimeDpsDoQue}',
+  '{!complete} {antesDoQue} {que} {!incompleteDpsDoQue} {completeAntTime}',
+]
 
-// function putPlaceHolder(dict: (string | boolean)[] | undefined) {
-//   if (!dict) return
-//   if (typeof dict[0] === 'string' && typeof dict[1] === 'string') {
-//     console.log('oii')
-//     const newDict: any[] = dict
-//     const [pt, en] = changePlaceHolders(newDict.slice(0, 2))
-//     newDict[0] = pt
-//     newDict[1] = en
-//     return newDict
-//   }
-// }
+export default function Memori({}: IProps) {
+  const [value, setValue] = useLocalStorage<{
+    [key: string]: number
+  }>('historic', {})
 
-const Memori = ({}: IProps) => {
-  function generateSentence() {
-    const last = _.sample(dict.SS)
-    return [
-      _.sample(dict.SS_Start),
-      _.sample(dict.SS),
-      !last?.[2] && _.sample(dict.JS),
-      last,
-    ]
+  function generateSentenceByPattern(pattern: string) {
+    const keys = pattern
+      .match(/(?<=\{).*?(?=\})/g)
+      ?.filter(key => (key.includes('!') ? _.sample([true, false]) : true))
+
+    const sentence = keys?.map(key => {
+      const keyWithoutOptional = key.replace('!', '')
+
+      return _.sample(dict[keyWithoutOptional])
+    })
+    return sentence
   }
 
-  const [sentence, setSentence] = useState(generateSentence())
+  function generateSentenceByAllPatterns(patterns: string[]) {
+    const pattern = _.sample(patterns) || ''
+    const dictGot = generateSentenceByPattern(pattern)
+    return dictGot
+  }
+
+  const [sentence, setSentence] = useState(
+    generateSentenceByAllPatterns(patterns)
+  )
 
   // var similarity = stringSimilarity.compareTwoStrings(
   //   'do you have any idia whats is it',
@@ -137,7 +144,7 @@ const Memori = ({}: IProps) => {
         setShowTranslate(prev => !prev)
       }
       if (e.key === 'Escape') {
-        setSentence(generateSentence())
+        setSentence(generateSentenceByAllPatterns(patterns))
       }
     }
     window.addEventListener('keydown', handleKeyDown)
@@ -146,8 +153,44 @@ const Memori = ({}: IProps) => {
     }
   }, [])
 
+  function decrease() {
+    const newValue: any = { ...value }
+    sentence
+      ?.map((s: any) => s?.[0])
+      ?.forEach((s: any) => {
+        newValue[s] = newValue[s] ? newValue[s] - 1 : -1
+      })
+
+    setValue(newValue)
+  }
+
+  function increase() {
+    const newValue: any = { ...value }
+    sentence
+      ?.map((s: any) => s?.[0])
+      ?.forEach((s: any) => {
+        newValue[s] = newValue[s] ? newValue[s] + 1 : 1
+      })
+    setValue(newValue)
+  }
+
+  useEffect(() => {
+    setSentence(generateSentenceByAllPatterns(patterns))
+  }, [value])
+
+  function getColor(sentence: string) {
+    if (!value) return
+    const score = value[sentence]
+    if (score > 4) return 'green'
+    if (score > 2) return '#cdcd3c'
+    if (score > 0) return 'orange'
+    if (score < 0) return 'red'
+  }
+
   return (
-    <ContainerMemori onClick={() => setSentence(generateSentence())}>
+    <ContainerMemori
+    // onClick={() => setSentence(generateSentenceByAllPatterns(patterns))}
+    >
       {/* <p>
         {sentence.map(ss => (
           <span>{ss?.[0]}</span>
@@ -156,9 +199,9 @@ const Memori = ({}: IProps) => {
       <div className="container">
         <p>
           {sentence
-            .filter((v: any) => v?.[0])
+            ?.filter((v: any) => v?.[0])
             .map((ss: any) => (
-              <span>{ss?.[1]}</span>
+              <span style={{ background: getColor(ss?.[0]) }}>{ss?.[1]}</span>
             ))}
         </p>
         <p
@@ -167,14 +210,27 @@ const Memori = ({}: IProps) => {
           }}
         >
           {sentence
-            .filter((v: any) => v?.[0])
+            ?.filter((v: any) => v?.[0])
             .map((ss: any) => (
-              <span>{ss?.[0]}</span>
+              <span style={{ background: getColor(ss?.[0]) }}>{ss?.[0]}</span>
             ))}
         </p>
       </div>
+      <div>
+        <button onClick={() => decrease()}>NÃO SEI</button>
+        <button onClick={() => increase()}>SEI</button>
+      </div>
+      <br />
+      {value && (
+        <table>
+          {Object.keys(value).map((key: string) => (
+            <tr>
+              <td>{key}</td>
+              <td>{value[key]}</td>
+            </tr>
+          ))}
+        </table>
+      )}
     </ContainerMemori>
   )
 }
-
-export default Memori
