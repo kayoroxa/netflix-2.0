@@ -3,6 +3,42 @@ import CreateSentences from '../../templates/CreateSentences'
 
 const bigData = [
   {
+    rawSentence: 'What does that {c1} {c2}?',
+    // rawSentence: 'What does that ({c1a} {c1b} | {c2})?', column1-2elem column2-1elem ( numElemInLine | numElemInLine) numero de columns
+    replacements: [
+      {
+        id: 'p',
+        alternatives: [
+          `I`,
+          `you`,
+          `he`,
+          `she`,
+          `we`,
+          `they`,
+          `people`,
+          'many people',
+        ],
+      },
+      {
+        id: 'c1',
+        alternatives: ['have to do with', 'mean?', 'exactly mean?'],
+      },
+      {
+        id: 'c2',
+        alternatives: [
+          'solving the problem',
+          'me',
+          'making our civilization work',
+        ],
+      },
+      {
+        id: 'causa',
+        alternatives: ['ability', 'creativity', 'capacity'],
+      },
+    ],
+  },
+
+  {
     rawSentence:
       "it's {s/n} {because} lack of {causa} but for lack of commitment",
     replacements: [

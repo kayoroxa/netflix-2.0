@@ -67,8 +67,9 @@ const dict: any = {
       '👩‍👩‍👧‍👧a gente só descobre quando acontece',
     ],
     ["you don't want to know anymore", 'você não quer MAIS saber'],
-    ['it was basically one year studying', 'foi basicamente 1 ano estudando'],
+    ['it was basically one year studying', 'foi BASICAMENTE 1 ano estudando'],
     ['it was one year studying', 'foi 1 ano estudando'],
+    ['this is already accomplished', 'isso já foi realizado'],
   ],
   incompleteTimeDpsDoQue: [
     ['at the time', 'na época'],
@@ -96,9 +97,9 @@ const dict: any = {
 }
 
 const patterns = [
-  // '{!complete} {!antesDoQue} {que} {completeDpsDoQue} {!incompleteTimeDpsDoQue}',
-  // '{!complete} {!antesDoQue} {que} {incompleteTimeDpsDoQue} {completeDpsDoQue} ',
-  // '{!complete} {antesDoQue} {completeDpsDoQue} {!incompleteTimeDpsDoQue}',
+  '{!complete} {!antesDoQue} {que} {completeDpsDoQue} {!incompleteTimeDpsDoQue}',
+  '{!complete} {!antesDoQue} {que} {incompleteTimeDpsDoQue} {completeDpsDoQue} ',
+  '{!complete} {antesDoQue} {completeDpsDoQue} {!incompleteTimeDpsDoQue}',
   '{!complete} {antesDoQue} {que} {!incompleteDpsDoQue} {completeAntTime}',
 ]
 
