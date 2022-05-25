@@ -22,6 +22,8 @@ const CreateSentences = ({ data, onNext, before }: IProps) => {
   const sampleArrayIndex = (arr: string[]) =>
     Math.floor(Math.random() * arr.length)
 
+  // const [sentence, setSentence] = useState<string[]>([])
+
   function generateHtml(data: IData) {
     const { rawSentence, replacements } = data
     const sentence = rawSentence
@@ -37,22 +39,29 @@ const CreateSentences = ({ data, onNext, before }: IProps) => {
         )
         if (replacement) {
           const randomIndex = sampleArrayIndex(replacement.alternatives)
+
+          const data = replacement.alternatives.map((alternative, key) => {
+            const isEmphasis = randomIndex === key && alternative !== '_'
+
+            return {
+              isEmphasis,
+              text: alternative,
+              elem: (
+                <div
+                  className={`al-item word ${isEmphasis ? 'emphasis' : ''}`}
+                  key={key}
+                >
+                  {alternative}
+                </div>
+              ),
+            }
+          })
+
+          // console.log(data.filter(v => v.isEmphasis).map(v => v.text))
+
           return (
             <div className="al" key={index}>
-              <div className="al-inside">
-                {replacement.alternatives.map((alternative, key) => (
-                  <div
-                    className={`al-item word ${
-                      randomIndex === key && alternative !== '_'
-                        ? 'emphasis'
-                        : ''
-                    }`}
-                    key={key}
-                  >
-                    {alternative}
-                  </div>
-                ))}
-              </div>
+              <div className="al-inside">{data.map(v => v.elem)}</div>
             </div>
           )
         }
