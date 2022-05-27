@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BsFillPlayCircleFill } from 'react-icons/bs'
+import { ImLoop } from 'react-icons/im'
 import { IoMdArrowRoundBack, IoMdArrowRoundForward } from 'react-icons/io'
+import { MdTranslate } from 'react-icons/md'
 import { I_Text } from '../../utils/types/_type_text_lyrics'
 import { ContainerTextoComAudio } from './styles-texto-com-audio'
 
@@ -9,12 +11,20 @@ interface IProps {
 }
 
 const TextoComAudio = ({ textData }: IProps) => {
+  const [indexActive, setIndexActive] = useState<number | boolean>(false)
+
+  const [inLoop, setInLoop] = useState(false)
+  const [showTranslate, setShowTranslate] = useState(true)
+
   return (
     <ContainerTextoComAudio>
       <div className="app">
         <div className="text-container">
           {textData.lyrics.map((item, index) => (
-            <div className="sentence-play-container">
+            <div
+              className="sentence-play-container"
+              onClick={() => setIndexActive(index)}
+            >
               {/* {index === 0 && (
                 <div className="play">
                   <div className="play-button" />
@@ -23,11 +33,12 @@ const TextoComAudio = ({ textData }: IProps) => {
               <div
                 key={index}
                 className={
-                  'sentence-container' + (index === 5 ? ' active' : '')
+                  'sentence-container' +
+                  (index === indexActive ? ' active' : '')
                 }
               >
                 <div className="sentence en">{item.en}</div>
-                <div className="sentence pt">{item.pt}</div>
+                {showTranslate && <div className="sentence pt">{item.pt}</div>}
               </div>
             </div>
           ))}
@@ -44,6 +55,12 @@ const TextoComAudio = ({ textData }: IProps) => {
             <div className="description">part 1</div>
           </div>
           <div className="player">
+            <div
+              className={`translate ${showTranslate ? 'active' : ''}`}
+              onClick={() => setShowTranslate(prev => !prev)}
+            >
+              <MdTranslate />
+            </div>
             <div className="before">
               <IoMdArrowRoundBack />
             </div>
@@ -52,6 +69,12 @@ const TextoComAudio = ({ textData }: IProps) => {
             </div>
             <div className="after">
               <IoMdArrowRoundForward />
+            </div>
+            <div
+              className={`loop ${inLoop ? 'active' : ''}`}
+              onClick={() => setInLoop(prev => !prev)}
+            >
+              <ImLoop />
             </div>
           </div>
         </div>

@@ -4,6 +4,9 @@ export const ContainerTextoComAudio = styled.div`
   width: 100vw;
   min-height: 100vh;
   background: #212328;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   * {
     color: #efeff0;
@@ -12,7 +15,7 @@ export const ContainerTextoComAudio = styled.div`
   }
 
   .app {
-    width: 100%;
+    width: min(100%, 500px);
     height: 100%;
 
     display: flex;
@@ -23,8 +26,8 @@ export const ContainerTextoComAudio = styled.div`
     display: flex;
     flex-direction: column;
     margin-top: 30px;
-    margin-bottom: 150px;
-    gap: 20px;
+    margin-bottom: 300px;
+    gap: 30px;
 
     .sentence {
       width: 100%;
@@ -35,6 +38,7 @@ export const ContainerTextoComAudio = styled.div`
     .sentence-container {
       /* background-color: gray; */
       padding: 10px 20px;
+      cursor: pointer;
     }
 
     .active .sentence {
@@ -44,17 +48,17 @@ export const ContainerTextoComAudio = styled.div`
     .sentence.en {
       font-size: 20px;
       font-weight: bold;
+      /* margin-bottom: 6px; */
+    }
 
-      ::after {
+    .sentence.pt {
+      ::before {
         content: ' ';
-        display: block;
+        display: inline-block;
         width: 100%;
         height: 2px;
         background-color: rgba(239, 239, 240, 50%);
       }
-    }
-
-    .sentence.pt {
       font-size: 18px;
     }
   }
@@ -115,8 +119,9 @@ export const ContainerTextoComAudio = styled.div`
       gap: 30px;
 
       > * {
-        height: 40px;
-        width: 40px;
+        cursor: pointer;
+        height: 30px;
+        width: 30px;
 
         display: flex;
         justify-content: center;
@@ -126,6 +131,10 @@ export const ContainerTextoComAudio = styled.div`
           width: 100%;
           height: 100%;
         }
+      }
+
+      .active svg {
+        fill: #ffb700;
       }
 
       .play-pause {
