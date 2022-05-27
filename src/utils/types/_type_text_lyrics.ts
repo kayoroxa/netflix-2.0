@@ -7,6 +7,8 @@ export interface I_TextLyrics {
 
 export interface I_Text {
   lyrics: I_TextLyrics[]
+  title: string
+  description: string
   isOnYouTube?: boolean
   audioUrl: string
 }

@@ -1,10 +1,6 @@
 import styled from 'styled-components'
 
-interface IProps {
-  isMobile?: boolean
-}
-
-export const ContainerTextoComAudio = styled.div<IProps>`
+export const ContainerTextoComAudio = styled.div`
   width: 100vw;
   min-height: 100vh;
   background: #212328;
@@ -16,6 +12,15 @@ export const ContainerTextoComAudio = styled.div<IProps>`
     color: #efeff0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
   }
 
   .app {
@@ -42,7 +47,7 @@ export const ContainerTextoComAudio = styled.div<IProps>`
     .sentence-container {
       /* background-color: gray; */
       padding: 10px 20px;
-      cursor: ${props => (props.isMobile ? 'default' : 'pointer')};
+      cursor: pointer;
     }
 
     .active .sentence {
@@ -108,7 +113,8 @@ export const ContainerTextoComAudio = styled.div<IProps>`
         }
       }
       .title {
-        font-size: 2.5rem;
+        text-transform: uppercase;
+        font-size: 2rem;
         font-weight: bold;
         text-align: center;
         padding: 0.1rem 0px;
@@ -123,7 +129,7 @@ export const ContainerTextoComAudio = styled.div<IProps>`
       gap: 30px;
 
       > * {
-        cursor: ${props => (props.isMobile ? 'default' : 'pointer')};
+        cursor: pointer;
         height: 30px;
         width: 30px;
 
@@ -146,6 +152,7 @@ export const ContainerTextoComAudio = styled.div<IProps>`
         width: 70px;
         background: #ffb700;
         border-radius: 50%;
+        padding: 3px;
 
         svg {
           fill: #2f3136;
