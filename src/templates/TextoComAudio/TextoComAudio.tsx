@@ -16,8 +16,10 @@ const TextoComAudio = ({ textData }: IProps) => {
   const [inLoop, setInLoop] = useState(false)
   const [showTranslate, setShowTranslate] = useState(true)
 
+  const isMobile = window.innerWidth <= 768
+
   return (
-    <ContainerTextoComAudio>
+    <ContainerTextoComAudio isMobile={isMobile}>
       <div className="app">
         <div className="text-container">
           {textData.lyrics.map((item, index) => (

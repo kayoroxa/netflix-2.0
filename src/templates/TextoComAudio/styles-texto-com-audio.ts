@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 
-export const ContainerTextoComAudio = styled.div`
+interface IProps {
+  isMobile?: boolean
+}
+
+export const ContainerTextoComAudio = styled.div<IProps>`
   width: 100vw;
   min-height: 100vh;
   background: #212328;
@@ -38,7 +42,7 @@ export const ContainerTextoComAudio = styled.div`
     .sentence-container {
       /* background-color: gray; */
       padding: 10px 20px;
-      cursor: pointer;
+      cursor: ${props => (props.isMobile ? 'default' : 'pointer')};
     }
 
     .active .sentence {
@@ -119,7 +123,7 @@ export const ContainerTextoComAudio = styled.div`
       gap: 30px;
 
       > * {
-        cursor: pointer;
+        cursor: ${props => (props.isMobile ? 'default' : 'pointer')};
         height: 30px;
         width: 30px;
 
