@@ -41,8 +41,6 @@ const TextoComAudio = ({ textData }: IProps) => {
     }
   }
   function handleSentenceClick(index: number) {
-    const wasPlaying = isPlaying
-
     if (videoTarget) {
       // videoTarget.pauseVideo()
       videoTarget.seekTo(textData.lyrics[index].start / 1000, true)
