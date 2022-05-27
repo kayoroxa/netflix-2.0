@@ -1,5 +1,5 @@
 import { isNumber } from 'lodash'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { BsFillPlayCircleFill, BsPauseCircleFill } from 'react-icons/bs'
 import { ImLoop } from 'react-icons/im'
 import { IoMdArrowRoundBack, IoMdArrowRoundForward } from 'react-icons/io'
@@ -88,12 +88,15 @@ const TextoComAudio = ({ textData }: IProps) => {
     }
   }, [isPlaying, inLoop])
 
-  // useEffect(() => {
-  //   if (videoTarget && isNumber(indexActive)) {
-  //     const time = textData.lyrics[indexActive]?.start / 1000
-  //     if (time) videoTarget.seekTo(time, true)
-  //   }
-  // }, [indexActive])
+  const activeSentenceElem = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    console.log(activeSentenceElem?.current)
+    activeSentenceElem?.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+    })
+  }, [activeSentenceElem, indexActive])
 
   return (
     <ContainerTextoComAudio>
@@ -115,6 +118,7 @@ const TextoComAudio = ({ textData }: IProps) => {
                   'sentence-container' +
                   (index === indexActive ? ' active' : '')
                 }
+                ref={index === indexActive ? activeSentenceElem : null}
               >
                 <div className="sentence en">{item.en}</div>
                 {showTranslate && <div className="sentence pt">{item.pt}</div>}
@@ -141,7 +145,15 @@ const TextoComAudio = ({ textData }: IProps) => {
               >
                 <MdTranslate />
               </div>
-              <div className="before">
+              <div
+                className="before"
+                onClick={() => {
+                  const newIndex = isNumber(indexActive)
+                    ? Math.max(indexActive - 1, 0)
+                    : false
+                  if (newIndex) handleSentenceClick(newIndex)
+                }}
+              >
                 <IoMdArrowRoundBack />
               </div>
               <div
@@ -150,7 +162,15 @@ const TextoComAudio = ({ textData }: IProps) => {
               >
                 {isPlaying ? <BsPauseCircleFill /> : <BsFillPlayCircleFill />}
               </div>
-              <div className="after">
+              <div
+                className="after"
+                onClick={() => {
+                  const newIndex = isNumber(indexActive)
+                    ? Math.min(indexActive + 1, textData.lyrics.length - 1)
+                    : false
+                  if (newIndex) handleSentenceClick(newIndex)
+                }}
+              >
                 <IoMdArrowRoundForward />
               </div>
               <div
