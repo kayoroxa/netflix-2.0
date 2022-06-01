@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ContainerCreateSentences } from './styles-create-sentences'
+import { useSay } from './useSay'
 
 interface IReplacement {
   id: string
@@ -67,7 +68,6 @@ const CreateSentences = ({ data, onNext, before }: IProps) => {
         replacements
           .map(v => v.alternatives)
           .reduce((acc, cur) => {
-            debugger
             return acc * cur.length
           }, 1)
       )
@@ -150,6 +150,8 @@ const CreateSentences = ({ data, onNext, before }: IProps) => {
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [data])
+
+  useSay(dataSentence.sentence)
 
   return (
     <ContainerCreateSentences>
