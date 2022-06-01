@@ -3,6 +3,62 @@ import CreateSentences from '../../templates/CreateSentences'
 
 const bigData = [
   {
+    rawSentence: "that's {k} what {2-pessoa} {p+to_be} {r} {c}",
+    replacements: [
+      {
+        id: 'p+to_be',
+        alternatives: [
+          "i'm",
+          "it's",
+          "you're",
+          "you're both",
+          "we're",
+          "she's",
+          "he's",
+          "they're",
+        ],
+      },
+
+      {
+        id: '2-pessoa',
+        alternatives: ['they think', '_'],
+      },
+      {
+        id: 'k',
+        alternatives: ['kind of', '_'],
+      },
+      {
+        id: 'r',
+        alternatives: ['really', '_'],
+      },
+      {
+        id: 'c',
+        alternatives: ['looking for', 'there for', 'doing'],
+      },
+    ],
+  },
+  {
+    rawSentence: 'because {p+to_be} about to {do}',
+    replacements: [
+      {
+        id: 'p+to_be',
+        alternatives: [
+          "i'm",
+          "it's",
+          "you're",
+          "we're",
+          "she's",
+          "he's",
+          "they're",
+        ],
+      },
+      {
+        id: 'do',
+        alternatives: ['break a barrier', 'make a mistake', 'succeed'],
+      },
+    ],
+  },
+  {
     rawSentence: 'What does that {c1} {c2}?',
     // rawSentence: 'What does that ({c1a} {c1b} | {c2})?', column1-2elem column2-1elem ( numElemInLine | numElemInLine) numero de columns
     replacements: [
@@ -117,23 +173,6 @@ const bigData = [
     ],
   },
   {
-    rawSentence: '{p} will {time} be able to {comp}',
-    replacements: [
-      {
-        id: 'p',
-        alternatives: [`I`, `My mon`, `you`, `he`, `she`, `we`, `they`, `it`],
-      },
-      {
-        id: 'comp',
-        alternatives: [`stop me`, 'do it right', 'do it fast', 'do it well'],
-      },
-      {
-        id: 'time',
-        alternatives: ['not', 'always', 'never', '_'],
-      },
-    ],
-  },
-  {
     rawSentence: '{p} {plus} {have} {time} been {v3}',
     replacements: [
       {
@@ -146,11 +185,18 @@ const bigData = [
       },
       {
         id: 'have',
-        alternatives: [`have | has`, `'ve | 's`],
+        alternatives: [
+          `have | has`,
+          `'ve | 's`,
+          `could've`,
+          `could have`,
+          `should've`,
+          `should have`,
+        ],
       },
       {
         id: 'time',
-        alternatives: ['always', 'never'],
+        alternatives: ['always', 'never', '_'],
       },
       {
         id: 'v3',
@@ -258,15 +304,19 @@ const bigData = [
     ],
   },
   {
-    rawSentence: '{p} {think} there is no {complement} for {p} do it',
+    rawSentence: '{p} {think} there is no {excuse} for {p} {complement}',
     replacements: [
+      {
+        id: 'complement',
+        alternatives: ['do it', 'did it'],
+      },
       {
         id: 'excuse',
         alternatives: ['excuse', 'reason', 'why'],
       },
       {
         id: 'think',
-        alternatives: ['think', 'believes', 'thought'],
+        alternatives: ['think(s)', 'believe(s)', 'thought'],
       },
       {
         id: 'adj',

@@ -10,7 +10,7 @@ export const ContainerCreateSentences = styled.div`
     font-size: 1.3rem;
     color: white;
     font-family: 'Roboto', sans-serif;
-    transition: all 0.3s ease-in-out;
+    /* transition: all 0.3s ease-in-out; */
   }
   .app {
     width: 100%;

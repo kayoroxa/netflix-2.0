@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ContainerCreateSentences } from './styles-create-sentences'
 
 interface IReplacement {
@@ -18,18 +18,47 @@ interface IProps {
   before: string[]
 }
 
+function getOption(textDivided: string[], target: string) {
+  if (target.includes('(s)')) {
+    const p1 = ['i', 'you', 'they', 'we']
+
+    const includeAnyP1 = textDivided.some(item => p1.includes(item))
+
+    if (includeAnyP1) return target.replace('(s)', '')
+    return target.replace('(s)', 's')
+  } else if (target.includes('|')) {
+    const p1 = ['i', 'you', 'they', 'we']
+
+    const includeAnyP1 = textDivided.some(item => p1.includes(item))
+
+    const [forP1, forP2] = target.split('|').map(v => v.trim())
+
+    if (includeAnyP1) return forP1
+    return forP2
+  }
+  return target
+}
+
 const CreateSentences = ({ data, onNext, before }: IProps) => {
-  const sampleArrayIndex = (arr: string[]) =>
-    Math.floor(Math.random() * arr.length)
+  const sampleArrayIndex = (arr: string[]) => {
+    const index = Math.floor(Math.random() * arr.length)
+    return {
+      randomIndex: index,
+      value: arr[index],
+    }
+  }
 
   // const [sentence, setSentence] = useState<string[]>([])
 
   function generateHtml(data: IData) {
+    let endSentence = false
     const { rawSentence, replacements } = data
     const sentence = rawSentence
       .split(/(\{.*?\})/g)
       .map(v => v.trim())
       .filter(item => item.length > 0)
+
+    let sentenceChoice: string[] = []
 
     const html = sentence.map((word, index) => {
       if (word.startsWith('{') && word.endsWith('}')) {
@@ -38,10 +67,23 @@ const CreateSentences = ({ data, onNext, before }: IProps) => {
           replacement => replacement.id === id
         )
         if (replacement) {
-          const randomIndex = sampleArrayIndex(replacement.alternatives)
+          let { randomIndex, value } = sampleArrayIndex(
+            replacement.alternatives
+          )
+
+          if (
+            ['.', '!', '?'].some(p => sentenceChoice.slice(-1)[0]?.endsWith(p))
+          ) {
+            endSentence = true
+          }
 
           const data = replacement.alternatives.map((alternative, key) => {
-            const isEmphasis = randomIndex === key && alternative !== '_'
+            const isEmphasis =
+              randomIndex === key && alternative !== '_' && !endSentence
+
+            if (isEmphasis) {
+              sentenceChoice.push(getOption(sentenceChoice, alternative))
+            }
 
             return {
               isEmphasis,
@@ -57,8 +99,6 @@ const CreateSentences = ({ data, onNext, before }: IProps) => {
             }
           })
 
-          // console.log(data.filter(v => v.isEmphasis).map(v => v.text))
-
           return (
             <div className="al" key={index}>
               <div className="al-inside">{data.map(v => v.elem)}</div>
@@ -66,35 +106,48 @@ const CreateSentences = ({ data, onNext, before }: IProps) => {
           )
         }
       }
-
-      return <div className="word emphasis">{word}</div>
+      if (!endSentence) sentenceChoice.push(word)
+      return (
+        <div className={`word ${!endSentence ? 'emphasis' : ''}`}>{word}</div>
+      )
     })
-    return html
+    return {
+      sentence: sentenceChoice.join(' ').replace(/\s\'/g, "'"),
+      html,
+    }
   }
+
+  const [dataSentence, setDataSentence] = useState<{
+    sentence: string | null
+    html: JSX.Element[] | null
+  }>({ sentence: null, html: null })
+
+  useEffect(() => {
+    setDataSentence(generateHtml(data))
+  }, [data])
 
   return (
     <ContainerCreateSentences>
       <div className="app">
         <button onClick={onNext}>NEXT...</button>
 
-        <div className="flow-container">
-          <div className="al">
-            <div className="al-inside">
-              {before.map((item, key) => (
-                <div className="al-item word small" key={key}>
-                  {item}
-                </div>
-              ))}
+        {dataSentence.html && (
+          <div className="flow-container">
+            <div className="al">
+              <div className="al-inside">
+                {before.map((item, key) => (
+                  <div className="al-item word small" key={key}>
+                    {item}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
 
-          {generateHtml(data)}
-        </div>
-        {/* {after.map((item, index) => (
-          <div className="after word" key={index}>
-            {item}
+            {dataSentence.html}
           </div>
-        ))}*/}
+        )}
+
+        <div className="after word">{dataSentence.sentence}</div>
       </div>
     </ContainerCreateSentences>
   )
