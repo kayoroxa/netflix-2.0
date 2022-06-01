@@ -21,6 +21,12 @@ export const ContainerCreateSentences = styled.div`
     justify-content: center;
   }
 
+  .combinations {
+    position: fixed;
+    bottom: 30px;
+    left: 40px;
+  }
+
   .flow-container {
     display: flex;
     justify-content: center;
@@ -64,7 +70,8 @@ export const ContainerCreateSentences = styled.div`
     overflow: hidden;
 
     :hover {
-      background: pink;
+      background: #70769e;
+      color: white;
     }
   }
 
