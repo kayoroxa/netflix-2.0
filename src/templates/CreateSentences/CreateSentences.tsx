@@ -40,6 +40,8 @@ function getOption(textDivided: string[], target: string) {
 }
 
 const CreateSentences = ({ data, onNext, before }: IProps) => {
+  const [combinations, setCombinations] = useState(0)
+
   const sampleArrayIndex = (arr: string[]) => {
     const index = Math.floor(Math.random() * arr.length)
     return {
@@ -61,15 +63,21 @@ const CreateSentences = ({ data, onNext, before }: IProps) => {
     let sentenceChoice: string[] = []
 
     const html = sentence.map((word, index) => {
+      setCombinations(
+        replacements
+          .map(v => v.alternatives)
+          .reduce((acc, cur) => {
+            debugger
+            return acc * cur.length
+          }, 1)
+      )
       if (word.startsWith('{') && word.endsWith('}')) {
         const id = word.slice(1, -1)
         const replacement = replacements.find(
           replacement => replacement.id === id
         )
         if (replacement) {
-          let { randomIndex, value } = sampleArrayIndex(
-            replacement.alternatives
-          )
+          let { randomIndex } = sampleArrayIndex(replacement.alternatives)
 
           if (
             ['.', '!', '?'].some(p => sentenceChoice.slice(-1)[0]?.endsWith(p))
@@ -122,8 +130,25 @@ const CreateSentences = ({ data, onNext, before }: IProps) => {
     html: JSX.Element[] | null
   }>({ sentence: null, html: null })
 
+  function onReloadSentence() {
+    setDataSentence(generateHtml(data))
+  }
+
   useEffect(() => {
     setDataSentence(generateHtml(data))
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        onNext()
+      }
+      if (e.key === '0') {
+        onReloadSentence()
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
   }, [data])
 
   return (
@@ -148,6 +173,7 @@ const CreateSentences = ({ data, onNext, before }: IProps) => {
         )}
 
         <div className="after word">{dataSentence.sentence}</div>
+        <div className="combinations">{combinations}</div>
       </div>
     </ContainerCreateSentences>
   )
