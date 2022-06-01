@@ -173,15 +173,11 @@ const bigData = [
     ],
   },
   {
-    rawSentence: '{p} {plus} {have} {time} been {v3}',
+    rawSentence: '{p} {have} {time} been {v3}',
     replacements: [
       {
         id: 'p',
         alternatives: [`I`, `My mon`, `you`, `he`, `she`, `we`, `they`, `it`],
-      },
-      {
-        id: 'plus',
-        alternatives: [`could`, `should`, `_`],
       },
       {
         id: 'have',
