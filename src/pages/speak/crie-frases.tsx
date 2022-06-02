@@ -96,7 +96,7 @@ const bigData = [
 
   {
     rawSentence:
-      "it's {s/n} {because} lack of {causa} but for lack of commitment",
+      "it's not {because} lack of {causa} but for lack of commitment",
     replacements: [
       {
         id: 'p',
@@ -201,34 +201,43 @@ const bigData = [
     ],
   },
   {
-    rawSentence: 'what {cod+p} {adj} {comp}',
+    rawSentence: 'what {code} {not} {cod+p} {w/h} {adj} {comp}?',
     replacements: [
+      {
+        id: 'not',
+        alternatives: ['not', '_'],
+      },
+      {
+        id: 'w/h',
+        alternatives: [
+          'want to do',
+          'have to do',
+          'intend to do',
+          'do',
+          // 'mean',
+        ],
+      },
       {
         id: 'adj',
         alternatives: [
-          'want to pretend',
-          'want to show',
-          'want to impress',
-          'want to prove',
-          'mean',
+          'to fool',
+          'to show',
+          'to impress',
+          'to prove',
+          // 'mean',
         ],
       },
       {
         id: 'cod+p',
-        alternatives: [
-          'do we',
-          'do we all',
-          'do you',
-          'do they',
-          'does she',
-          'do i',
-          'does he',
-          'does Jack',
-        ],
+        alternatives: ['we', 'we all', 'you', 'they', 'she', 'i', 'he', 'Jack'],
+      },
+      {
+        id: 'code',
+        alternatives: ['will', 'would', 'should', 'could', 'did'],
       },
       {
         id: 'comp',
-        alternatives: ['to you', 'to me', 'to him', 'by that'],
+        alternatives: ['you', 'me', 'him', 'these things', 'our boss'], //'by that'
       },
     ],
   },
@@ -710,7 +719,7 @@ export default function PlayPage() {
             return prev + 1
           })
         }
-        before={before}
+        before={false}
         after={after}
       />
     </div>
