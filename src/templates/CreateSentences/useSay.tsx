@@ -55,9 +55,31 @@ export function useSay(text: string | null) {
     }
   }, [text])
 
+  useEffect(() => {
+    // keydown
+    const keydown = (e: any) => {
+      if (e.key.toLowerCase() === 'r') {
+        speak()
+      }
+    }
+
+    window.addEventListener('keydown', keydown)
+
+    return () => {
+      window.removeEventListener('keydown', keydown)
+    }
+  })
+
   function speak() {
     if (utterThis) {
+      stop()
       window.speechSynthesis.speak(utterThis)
+    }
+  }
+
+  function stop() {
+    if (utterThis) {
+      window.speechSynthesis.cancel()
     }
   }
 
