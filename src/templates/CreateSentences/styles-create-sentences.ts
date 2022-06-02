@@ -99,6 +99,11 @@ export const ContainerCreateSentences = styled.div`
     }
   }
 
+  .after {
+    position: fixed;
+    bottom: 30px;
+  }
+
   .emphasis {
     background: white;
     color: black;
