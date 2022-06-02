@@ -16,7 +16,7 @@ interface IProps {
   data: IData
   onNext: () => void
   after: string[]
-  before: string[]
+  before: string[] | false
 }
 
 function getOption(textDivided: string[], target: string) {
@@ -30,7 +30,9 @@ function getOption(textDivided: string[], target: string) {
   } else if (target.includes('|')) {
     const p1 = ['i', 'you', 'they', 'we']
 
-    const includeAnyP1 = textDivided.some(item => p1.includes(item))
+    const includeAnyP1 = textDivided.some(item =>
+      p1.includes(item.toLowerCase())
+    )
 
     const [forP1, forP2] = target.split('|').map(v => v.trim())
 
@@ -120,7 +122,10 @@ const CreateSentences = ({ data, onNext, before }: IProps) => {
       )
     })
     return {
-      sentence: sentenceChoice.join(' ').replace(/\s\'/g, "'"),
+      sentence: sentenceChoice
+        .join(' ')
+        .replace(/\s\'/g, "'")
+        .replace(/\sn\'t/g, "n't"),
       html,
     }
   }
@@ -160,15 +165,17 @@ const CreateSentences = ({ data, onNext, before }: IProps) => {
 
         {dataSentence.html && (
           <div className="flow-container">
-            <div className="al">
-              <div className="al-inside">
-                {before.map((item, key) => (
-                  <div className="al-item word small" key={key}>
-                    {item}
-                  </div>
-                ))}
+            {before && (
+              <div className="al">
+                <div className="al-inside">
+                  {before.map((item, key) => (
+                    <div className="al-item word small" key={key}>
+                      {item}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {dataSentence.html}
           </div>
