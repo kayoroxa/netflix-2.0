@@ -17,6 +17,10 @@ interface IProps {
   onNext: () => void
   after: string[]
   before: string[] | false
+  patternsInfo: {
+    currentIndex: number
+    length: number
+  }
 }
 
 function getOption(textDivided: string[], target: string) {
@@ -42,7 +46,7 @@ function getOption(textDivided: string[], target: string) {
   return target
 }
 
-const CreateSentences = ({ data, onNext, before }: IProps) => {
+const CreateSentences = ({ data, onNext, before, patternsInfo }: IProps) => {
   const [combinations, setCombinations] = useState(0)
 
   const sampleArrayIndex = (arr: string[]) => {
@@ -183,6 +187,9 @@ const CreateSentences = ({ data, onNext, before }: IProps) => {
 
         <div className="after word">{dataSentence.sentence}</div>
         <div className="combinations">{combinations}</div>
+        <div className="index">
+          N: {patternsInfo?.currentIndex}/{patternsInfo?.length}
+        </div>
       </div>
     </ContainerCreateSentences>
   )

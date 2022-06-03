@@ -27,6 +27,12 @@ export const ContainerCreateSentences = styled.div`
     left: 40px;
   }
 
+  .index {
+    position: fixed;
+    top: 30px;
+    left: 30px;
+  }
+
   .flow-container {
     display: flex;
     justify-content: center;

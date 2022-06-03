@@ -3,7 +3,51 @@ import CreateSentences from '../../templates/CreateSentences'
 
 const bigData = [
   {
-    rawSentence: "that's {k} what {2-pessoa} {p+to_be} {r} {c}",
+    rawSentence: '{ps} have {r} {v3} {a} about {c}',
+    replacements: [
+      {
+        id: 'ps',
+        alternatives: [
+          'you and he',
+          'he and she',
+          'mom and dad',
+          'both individuals',
+          'they',
+          'the guys',
+          'people',
+          'society',
+        ],
+      },
+
+      {
+        id: 'v3',
+        alternatives: [
+          'heard',
+          'known',
+          'been talking',
+          'spoken',
+          'been wondering',
+          'been asking themselves',
+          'been thinking',
+        ],
+      },
+
+      {
+        id: 'r',
+        alternatives: ['really', 'recently', 'sure', '_'],
+      },
+      {
+        id: 'a',
+        alternatives: ['all', 'everything', 'a few things', '_'],
+      },
+      {
+        id: 'c',
+        alternatives: ['it', 'themselves', 'the situation', 'what happened'],
+      },
+    ],
+  },
+  {
+    rawSentence: "that's what {2-pessoa} {p+to_be} {r} {c}",
     replacements: [
       {
         id: 'p+to_be',
@@ -38,23 +82,52 @@ const bigData = [
     ],
   },
   {
-    rawSentence: 'because {p+to_be} about to {do}',
+    rawSentence: '{p} {comp} {pq} {p+to_be} about to {do}',
     replacements: [
+      {
+        id: 'pq',
+        alternatives: ['just because', 'because'],
+      },
+      {
+        id: 'p',
+        alternatives: ['you', 'he', 'she', 'we', 'they', 'my dad'],
+      },
+      {
+        id: 'comp',
+        alternatives: [
+          'do it | does it',
+          'did it',
+          'had to do it',
+          'have to do it | has to do it',
+          'will do it',
+          'would do it',
+          'should do it',
+          'are here | is here',
+          'were here | was here',
+        ],
+      },
       {
         id: 'p+to_be',
         alternatives: [
           "i'm",
-          "it's",
+          // "it's",
           "you're",
           "we're",
           "she's",
           "he's",
           "they're",
+          'the players are',
         ],
       },
       {
         id: 'do',
-        alternatives: ['break a barrier', 'make a mistake', 'succeed'],
+        alternatives: [
+          'break a barrier',
+          'make a mistake',
+          'succeed',
+          'start',
+          'lose',
+        ],
       },
     ],
   },
@@ -376,15 +449,19 @@ const bigData = [
     ],
   },
   {
-    rawSentence: '{p} {tamanho} get {intensidade} {sentimento}',
+    rawSentence: '{p} {tamanho} {g} {intensidade} {sentimento}',
     replacements: [
+      {
+        id: 'g',
+        alternatives: ['get', 'got'],
+      },
       {
         id: 'tamanho',
         alternatives: ['still', 'really', 'almost', 'probably', 'mostly'],
       },
       {
         id: 'p',
-        alternatives: ['we', 'you', 'they', 'she', 'i', 'he'],
+        alternatives: ['my dog', 'we', 'mom', 'you', 'they', 'she', 'i', 'he'],
       },
       {
         id: 'intensidade',
@@ -401,7 +478,7 @@ const bigData = [
     replacements: [
       {
         id: 'x',
-        alternatives: ['mostly', '_'],
+        alternatives: ['mostly', 'usually', '_'],
       },
       {
         id: 'c',
@@ -612,13 +689,30 @@ const bigData = [
     replacements: [
       {
         id: 'p+to_be',
-        alternatives: ["i'm", "you're", "we're", "she's", "he's"],
+        alternatives: [
+          "i'm",
+          "you're",
+          "we're",
+          "she's",
+          "he's",
+          'somebody is',
+          'who is',
+          'The other one is',
+        ],
       },
       { id: 'intensificador', alternatives: ['really', 'just', '_'] },
       // { id: 'x', alternatives: ['did', "didn't", 'will', "won't", '_'] },
       {
         id: 'mid',
-        alternatives: ['trying to', 'want to', 'need to'],
+        alternatives: [
+          'trying to',
+          'being forced to',
+          'needing to',
+          'happy to',
+          // 'want to',
+          // 'should be having to',
+          // 'might be having to',
+        ],
       },
       {
         id: 'complement',
@@ -710,6 +804,10 @@ export default function PlayPage() {
   return (
     <div>
       <CreateSentences
+        patternsInfo={{
+          currentIndex: bigData.length - indexData,
+          length: bigData.length,
+        }}
         data={bigData[indexData]}
         onNext={() =>
           setIndexData(prev => {
