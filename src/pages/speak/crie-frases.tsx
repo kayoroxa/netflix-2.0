@@ -1,9 +1,178 @@
 import { useState } from 'react'
 import CreateSentences from '../../templates/CreateSentences'
 
+function person(id: string) {
+  let alternatives = ['you', 'he', 'you guys', 'they', 'those people', "y'all"]
+
+  if (id === 'p2')
+    alternatives = [
+      'me',
+      'you',
+      'her',
+      'him',
+      'us',
+      'them',
+      'us all',
+      'all of us',
+    ]
+  if (id === 'code')
+    alternatives = [
+      'will',
+      "won't",
+      "don't",
+      'would',
+      "wouldn't",
+      'can',
+      'could',
+    ]
+
+  if (id === 'ancora') alternatives = ['which means', '_']
+
+  if (id === 'aumentadores')
+    alternatives = ['really', 'sure', 'literally', `suddenly`, '_']
+  return {
+    id,
+    alternatives,
+  }
+}
+
 const bigData = [
   {
-    rawSentence: '{ps} have {r} {v3} {a} about {c}',
+    rawSentence: '{p} {aumentadores} {code} {w} {p2} {v} there {f_l}',
+    replacements: [
+      person('p'),
+      person('p2'),
+      person('aumentadores'),
+      {
+        id: 'f_l',
+        alternatives: [`for life`, `forever`, `until tomorrow`, '_'],
+      },
+      {
+        id: 'code',
+        alternatives: [
+          `don't | doesn't`,
+          `do not | does not`,
+          `didn't`,
+          `did not`,
+          `can't`,
+          'may not',
+          '_',
+        ],
+      },
+      {
+        id: 'w',
+        alternatives: [`imagine`, `want`],
+      },
+      {
+        id: 'v',
+        alternatives: [
+          `to go`,
+          `to be`,
+          `staying`,
+          `to stay`,
+          `getting sick`,
+          `getting sad`,
+        ],
+      },
+    ],
+  },
+  {
+    rawSentence: '{w} {code+p} {r} do {p2} {f}',
+    replacements: [
+      person('p2'),
+
+      {
+        id: 'f',
+        alternatives: ['a meal', 'a favor', 'some food'],
+      },
+      {
+        id: 'w',
+        alternatives: ['why', `I don't understand why`],
+      },
+      {
+        id: 'code+p',
+        alternatives: [
+          `don't you`,
+          `doesn't he`,
+          `doesn't she`,
+          `don't they`,
+          `doesn't nobody`,
+        ],
+      },
+      {
+        id: 'r',
+        alternatives: ['even', '_'],
+      },
+    ],
+  },
+  {
+    rawSentence: '{w} the {only} {r} {action} {p2} {who}',
+    replacements: [
+      person('p2'),
+
+      {
+        id: 'who',
+        alternatives: ['is this kid', 'is this random girl'],
+      },
+      {
+        id: 'w',
+        alternatives: ['how come', 'why'],
+      },
+      {
+        id: 'only',
+        alternatives: ['only person', 'only one'],
+      },
+
+      {
+        id: 'r',
+        alternatives: ['really', 'recently', 'who is literally', '_'],
+      },
+      {
+        id: 'action',
+        alternatives: ['talking to', 'looking at', 'helping'],
+      },
+    ],
+  },
+  {
+    rawSentence: '{frase} {p} {cod+n} {r} {v} what {comp} {ing}',
+    replacements: [
+      person('p'),
+
+      {
+        id: 'frase',
+        alternatives: [
+          'i was sure',
+          'i told you',
+          'no one knew',
+          'someone told me that',
+          "i don't even know why",
+        ],
+      },
+      {
+        id: 'cod+n',
+        alternatives: ["didn't", "don't | doesn't", "wouldn't"],
+      },
+      {
+        id: 'v',
+        alternatives: ['know', 'understand', 'notice', 'remember', 'find out'],
+      },
+
+      {
+        id: 'r',
+        alternatives: ['really', 'recently', 'literally', '_'],
+      },
+      {
+        id: 'comp',
+        alternatives: ['she was', 'they were', 'you were', 'we were'],
+      },
+      {
+        id: 'ing',
+        alternatives: ['doing', 'thinking', 'talking'],
+      },
+    ],
+  },
+  {
+    rawSentence: '{ps} {have} {r} {v3} {a} about {c}',
     replacements: [
       {
         id: 'ps',
@@ -20,6 +189,10 @@ const bigData = [
       },
 
       {
+        id: 'have',
+        alternatives: ['have', 'had'],
+      },
+      {
         id: 'v3',
         alternatives: [
           'heard',
@@ -34,20 +207,32 @@ const bigData = [
 
       {
         id: 'r',
-        alternatives: ['really', 'recently', 'sure', '_'],
+        alternatives: ['really', 'recently', 'sure', 'literally', '_'],
       },
       {
         id: 'a',
-        alternatives: ['all', 'everything', 'a few things', '_'],
+        alternatives: [
+          'all',
+          'everything',
+          'a few things',
+          'of a positive point',
+          '_',
+        ],
       },
       {
         id: 'c',
-        alternatives: ['it', 'themselves', 'the situation', 'what happened'],
+        alternatives: [
+          'it',
+          'themselves',
+          'the situation',
+          'what happened',
+          'these problems',
+        ],
       },
     ],
   },
   {
-    rawSentence: "that's what {2-pessoa} {p+to_be} {r} {c}",
+    rawSentence: '{w} {2-pessoa} {p+to_be} {r} {c}',
     replacements: [
       {
         id: 'p+to_be',
@@ -64,8 +249,12 @@ const bigData = [
       },
 
       {
+        id: 'w',
+        alternatives: ['no problem', "that's what", 'what matters is that'],
+      },
+      {
         id: '2-pessoa',
-        alternatives: ['they think', '_'],
+        alternatives: ['they think', 'it looks like', '_'],
       },
       {
         id: 'k',
@@ -73,11 +262,11 @@ const bigData = [
       },
       {
         id: 'r',
-        alternatives: ['really', '_'],
+        alternatives: ['really', 'already', '_'],
       },
       {
         id: 'c',
-        alternatives: ['looking for', 'there for', 'doing'],
+        alternatives: ['looking for', 'there for', 'doing', 'going somewhere'],
       },
     ],
   },
@@ -246,11 +435,25 @@ const bigData = [
     ],
   },
   {
-    rawSentence: '{p} {have} {time} been {v3}',
+    rawSentence: '{ancora} {p} {have} {time} {v3} {m}',
     replacements: [
+      person('ancora'),
+      {
+        id: 'm',
+        alternatives: [`more`, `_`],
+      },
       {
         id: 'p',
-        alternatives: [`I`, `My mon`, `you`, `he`, `she`, `we`, `they`, `it`],
+        alternatives: [
+          `I`,
+          `My mon`,
+          `you`,
+          `he`,
+          `she`,
+          `we`,
+          `they`,
+          'someone else',
+        ],
       },
       {
         id: 'have',
@@ -265,11 +468,11 @@ const bigData = [
       },
       {
         id: 'time',
-        alternatives: ['always', 'never', '_'],
+        alternatives: ['always', 'never', 'often', '_'],
       },
       {
         id: 'v3',
-        alternatives: ['obsessed', 'done', 'talked'],
+        alternatives: ['been obsessed', 'done', 'talked', 'here'],
       },
     ],
   },
@@ -760,36 +963,36 @@ const bigData = [
 //i've always been obsessed with animal behavior
 //every once in a while
 
-const before = [
-  'where',
-  'as {strange} as it might sound',
-  "As far as l'm concerned",
-  'because',
-  'seems odd that',
-  'even with all the [...] …',
-  'Well,',
-  'while',
-  'Also',
-  'though',
-  'although (apesar)',
-  'sometimes',
-  'enjoy it now before',
-  'As long as  (enquanto)',
-  "I'm afraid …",
-  'It could be said that…',
-  'Actually',
-  'l realize',
-  'What I think is that',
-  'I think',
-  "Don't worry",
-  'But since (mas já que)',
-  'Ever since (desde que)',
-  "it's the first time",
-  'in other words',
-  'but when',
-  'What else do/does (O quê mais)',
-  'Since when do/does (Desde quando)',
-]
+// const before = [
+//   'where',
+//   'as {strange} as it might sound',
+//   "As far as l'm concerned",
+//   'because',
+//   'seems odd that',
+//   'even with all the [...] …',
+//   'Well,',
+//   'while',
+//   'Also',
+//   'though',
+//   'although (apesar)',
+//   'sometimes',
+//   'enjoy it now before',
+//   'As long as  (enquanto)',
+//   "I'm afraid …",
+//   'It could be said that…',
+//   'Actually',
+//   'l realize',
+//   'What I think is that',
+//   'I think',
+//   "Don't worry",
+//   'But since (mas já que)',
+//   'Ever since (desde que)',
+//   "it's the first time",
+//   'in other words',
+//   'but when',
+//   'What else do/does (O quê mais)',
+//   'Since when do/does (Desde quando)',
+// ]
 
 const after = [
   "That's why I thought, ",

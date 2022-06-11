@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 function setSpeech() {
-  return new Promise(function (resolve, reject) {
+  return new Promise(function (resolve) {
     let synth = window.speechSynthesis
     let id: any
 
@@ -14,7 +14,7 @@ function setSpeech() {
   })
 }
 
-export function useSay(text: string | null) {
+export function useSay(text: string | null, language?: string) {
   const [utterThis, setUtterThis] = useState<null | SpeechSynthesisUtterance>(
     null
   )
@@ -33,10 +33,17 @@ export function useSay(text: string | null) {
         const synth = window.speechSynthesis
         const voices = synth.getVoices()
         console.log('1 vez')
-
         var selectedOption = 'Google US English'
 
+        if (language === 'fr') {
+          selectedOption = 'Google français'
+        }
+        if (language === 'es') {
+          selectedOption = 'Google español'
+        }
+
         voices.forEach(voice => {
+          console.log(voice.name)
           if (voice.name === selectedOption) {
             utter.voice = voice
           }

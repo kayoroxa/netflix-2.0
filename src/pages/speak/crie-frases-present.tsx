@@ -212,6 +212,10 @@ export default function PlayPage() {
   return (
     <div>
       <CreateSentences
+        patternsInfo={{
+          currentIndex: bigData.length - indexData,
+          length: bigData.length,
+        }}
         data={bigData[indexData]}
         onNext={() =>
           setIndexData(prev => {
@@ -221,8 +225,8 @@ export default function PlayPage() {
             return prev + 1
           })
         }
-        before={[]}
-        after={[]}
+        before={false}
+        after={false}
       />
     </div>
   )

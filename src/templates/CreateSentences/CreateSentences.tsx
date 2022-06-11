@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ContainerCreateSentences } from './styles-create-sentences'
 import { useSay } from './useSay'
 
@@ -15,12 +15,13 @@ interface IData {
 interface IProps {
   data: IData
   onNext: () => void
-  after: string[]
+  after: string[] | false
   before: string[] | false
   patternsInfo: {
     currentIndex: number
     length: number
   }
+  language?: string
 }
 
 function getOption(textDivided: string[], target: string) {
@@ -32,10 +33,10 @@ function getOption(textDivided: string[], target: string) {
     if (includeAnyP1) return target.replace('(s)', '')
     return target.replace('(s)', 's')
   } else if (target.includes('|')) {
-    const p1 = ['i', 'you', 'they', 'we']
+    const p1 = ['i', 'you', 'they', 'we', 'these', 'those']
 
     const includeAnyP1 = textDivided.some(item =>
-      p1.includes(item.toLowerCase())
+      p1.some(p => item.match(new RegExp(`\\b${p}\\b`, 'gi')))
     )
 
     const [forP1, forP2] = target.split('|').map(v => v.trim())
@@ -46,7 +47,13 @@ function getOption(textDivided: string[], target: string) {
   return target
 }
 
-const CreateSentences = ({ data, onNext, before, patternsInfo }: IProps) => {
+const CreateSentences = ({
+  data,
+  onNext,
+  before,
+  patternsInfo,
+  language,
+}: IProps) => {
   const [combinations, setCombinations] = useState(0)
 
   const sampleArrayIndex = (arr: string[]) => {
@@ -160,7 +167,7 @@ const CreateSentences = ({ data, onNext, before, patternsInfo }: IProps) => {
     }
   }, [data])
 
-  useSay(dataSentence.sentence)
+  useSay(dataSentence.sentence, language)
 
   return (
     <ContainerCreateSentences>
