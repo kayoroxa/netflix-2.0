@@ -54,12 +54,20 @@ export default function PlayPage() {
           length: bigData.length,
         }}
         data={bigData[indexData]}
-        onNext={() =>
+        onPrev={() =>
           setIndexData(prev => {
             if (prev + 1 >= bigData.length) {
               return 0
             }
             return prev + 1
+          })
+        }
+        onNext={() =>
+          setIndexData(prev => {
+            if (prev - 1 < 0) {
+              return bigData.length - 1
+            }
+            return prev - 1
           })
         }
         language="es"

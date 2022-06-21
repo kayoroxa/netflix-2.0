@@ -36,7 +36,61 @@ function person(id: string) {
   }
 }
 
+function before() {
+  return {
+    id: 'before',
+    alternatives: [
+      'just to be clear',
+      'seems odd that',
+      'although', // (apesar)
+      'But since', //(mas já que)
+      'Ever since', //(desde que)
+      "it's the first time",
+      'in other words',
+      'sometimes',
+      'What I think is that',
+      'As long as', //(enquanto)
+      //"what's in it for you?", // qual é a sua
+      '_',
+    ],
+  }
+}
+
 const bigData = [
+  {
+    rawSentence: '{before} {p} {have} {known} {whats} {to feel joy}',
+    replacements: [
+      before(),
+      person('p'),
+      {
+        id: 'have',
+        alternatives: [
+          `have | has`,
+          `have never | has never`,
+          `haven't | hasn't`,
+          `had`,
+        ],
+      },
+      {
+        id: 'known',
+        alternatives: [
+          `known`,
+          `seen sunlight.`,
+          `been exposed.`,
+          `been thinking about`,
+          `been wondering`,
+        ],
+      },
+      {
+        id: 'whats',
+        alternatives: [`what it's like`, `what to do`],
+      },
+      {
+        id: 'to feel joy',
+        alternatives: [`to feel joy`, `to be happy`],
+      },
+    ],
+  },
   {
     rawSentence: '{p} {aumentadores} {code} {w} {p2} {v} there {f_l}',
     replacements: [
@@ -547,8 +601,9 @@ const bigData = [
     ],
   },
   {
-    rawSentence: '{p+to_be} not {adj} supposed to be {comp}',
+    rawSentence: '{before} {p+to_be} not {adj} supposed to be {comp}',
     replacements: [
+      before(),
       {
         id: 'adj',
         alternatives: ['even', 'still', '_'],
@@ -968,27 +1023,31 @@ const bigData = [
 //   'as {strange} as it might sound',
 //   "As far as l'm concerned",
 //   'because',
-//   'seems odd that',
+
 //   'even with all the [...] …',
 //   'Well,',
 //   'while',
 //   'Also',
 //   'though',
+
+//   'seems odd that',
 //   'although (apesar)',
-//   'sometimes',
-//   'enjoy it now before',
-//   'As long as  (enquanto)',
-//   "I'm afraid …",
-//   'It could be said that…',
-//   'Actually',
-//   'l realize',
-//   'What I think is that',
-//   'I think',
-//   "Don't worry",
 //   'But since (mas já que)',
 //   'Ever since (desde que)',
 //   "it's the first time",
 //   'in other words',
+//   'sometimes',
+//   'What I think is that',
+//   'As long as  (enquanto)',
+
+//   'enjoy it now before',
+//   "I'm afraid …",
+//   'It could be said that…',
+//   'Actually',
+//   'l realize',
+//   'I think',
+//   "Don't worry",
+
 //   'but when',
 //   'What else do/does (O quê mais)',
 //   'Since when do/does (Desde quando)',
@@ -1012,12 +1071,20 @@ export default function PlayPage() {
           length: bigData.length,
         }}
         data={bigData[indexData]}
-        onNext={() =>
+        onPrev={() =>
           setIndexData(prev => {
             if (prev + 1 >= bigData.length) {
               return 0
             }
             return prev + 1
+          })
+        }
+        onNext={() =>
+          setIndexData(prev => {
+            if (prev - 1 < 0) {
+              return bigData.length - 1
+            }
+            return prev - 1
           })
         }
         before={false}
