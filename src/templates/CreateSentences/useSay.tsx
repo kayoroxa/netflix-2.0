@@ -27,6 +27,7 @@ export function useSay(text: string | null, language?: string) {
       'speechSynthesis' in window
     ) {
       const utter = new SpeechSynthesisUtterance()
+      utter.lang = 'en_US'
       console.log('1 vezinha')
 
       setSpeech().then(() => {
