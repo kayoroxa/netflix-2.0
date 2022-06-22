@@ -14,7 +14,8 @@ interface IData {
 
 interface IProps {
   data: IData
-  onNext: () => void
+  onNext: () => any
+  onPrev: () => any
   after: string[] | false
   before: string[] | false
   patternsInfo: {
@@ -53,6 +54,7 @@ const CreateSentences = ({
   before,
   patternsInfo,
   language,
+  onPrev,
 }: IProps) => {
   const [combinations, setCombinations] = useState(0)
 
@@ -154,12 +156,23 @@ const CreateSentences = ({
     setDataSentence(generateHtml(data))
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Enter') {
+      if (e.key === 'Enter' || e.key === 'd') {
         onNext()
       }
-      if (e.key === '0') {
+      if (e.key === '.' || e.key === 'a') {
+        onPrev()
+      }
+      if (e.key === '0' || e.key === ' ') {
         onReloadSentence()
       }
+      // if (e.key === 'c') {
+      //   console.log(dataSentence.sentence)
+      //   // copy to clipboard
+      //   const text = dataSentence.sentence
+      //   if (text) {
+      //     navigator.clipboard.writeText(text)
+      //   }
+      // }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => {

@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 
 interface IProps {
-  toggleLoop: () => void
-  next: () => void
-  prev: () => void
-  togglePause: () => void
-  repeatIndex: () => void
+  toggleLoop: () => any
+  next: () => any
+  prev: () => any
+  togglePause: () => any
+  repeatIndex: () => any
 }
 
 export default function useKey({
@@ -16,7 +16,7 @@ export default function useKey({
   repeatIndex,
 }: IProps) {
   useEffect(() => {
-    function prevent(e: KeyboardEvent, func: () => void) {
+    function prevent(e: KeyboardEvent, func: () => any) {
       e.preventDefault()
       func()
     }
