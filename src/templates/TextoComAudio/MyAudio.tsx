@@ -55,8 +55,18 @@ export default function MyAudio({
             const isEnd =
               currentTime > textData.lyrics[textData.lyrics.length - 1].end
 
-            if (isEnd) {
+            const lessThenBegin = currentTime < textData.lyrics[0].start
+
+            if (lessThenBegin) {
               setIndexActive(0)
+              return
+            }
+            if (isEnd) {
+              audio.current.pause()
+              setTimeout(() => {
+                setIndexActive(0)
+                if (audio.current) audio.current.play()
+              }, 1000)
               return
             }
             const findIndex = textData.lyrics.findIndex(

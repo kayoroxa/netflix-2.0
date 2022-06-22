@@ -93,7 +93,10 @@ const TextoComAudio = ({ textData }: IProps) => {
           <div className="photo-title">
             <div className="img-container">
               <img
-                src="https://www.csaimages.com/pix/ARCH/MISC/T20316_WP.JPG"
+                src={
+                  textData.img ||
+                  'https://www.csaimages.com/pix/ARCH/MISC/T20316_WP.JPG'
+                }
                 alt=""
               />
             </div>
