@@ -66,7 +66,7 @@ export function useSay(text: string | null, language?: string) {
   useEffect(() => {
     // keydown
     const keydown = (e: any) => {
-      if (e.key.toLowerCase() === 'r') {
+      if (e.key.toLowerCase() === 'r' || e.key === 's') {
         speak()
       }
     }
