@@ -44,7 +44,6 @@ function before() {
       'seems odd that',
       'although', // (apesar)
       'But since', //(mas já que)
-      'Ever since', //(desde que)
       "it's the first time",
       'in other words',
       'sometimes',
@@ -601,19 +600,24 @@ const bigData = [
     ],
   },
   {
-    rawSentence: '{before} {p+to_be} not {adj} supposed to be {comp}',
+    rawSentence: '{p+to_be} {not} {adj} {supposed to} {comp}',
     replacements: [
-      before(),
+      // before(),
       {
         id: 'adj',
-        alternatives: ['even', 'still', '_'],
+        alternatives: [
+          //
+          'even',
+          'still',
+          // '_',
+        ],
       },
       {
         id: 'p+to_be',
         alternatives: [
           "i'm",
-          "it's",
           "you're",
+          'those guys are',
           "we're",
           "she's",
           "he's",
@@ -622,7 +626,33 @@ const bigData = [
       },
       {
         id: 'comp',
-        alternatives: ['here', 'there', 'able to do it', 'talking that'],
+        alternatives: [
+          'be here',
+          'be there',
+          'be able to do that',
+          'be able to understand',
+          'be with him',
+          'make it',
+          'get home',
+          'stop',
+        ],
+      },
+      {
+        id: 'supposed to',
+        alternatives: [
+          //
+          'going to',
+          // 'supposed to',
+          'gonna',
+        ],
+      },
+      {
+        id: 'not',
+        alternatives: [
+          //
+          'not',
+          '_',
+        ],
       },
     ],
   },
