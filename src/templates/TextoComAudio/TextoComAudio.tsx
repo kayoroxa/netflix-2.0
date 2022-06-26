@@ -47,14 +47,17 @@ const TextoComAudio = ({ textData }: IProps) => {
     })
   }
 
+  const putSlow = () => setPlayRate(prev => Math.max(prev - 0.2, 0.2))
+  const putFast = () => setPlayRate(prev => Math.min(prev + 0.2, 2))
+
   useKey({
     toggleLoop: () => setInLoop(prev => !prev),
     next: handleAfter,
     prev: handlePrev,
     togglePause: () => setIsPlaying(prev => !prev),
     repeatIndex: () => setIndexActive(prev => (isNumber(prev) ? prev : 0)),
-    putSlow: () => setPlayRate(prev => Math.max(prev - 0.2, 0.2)),
-    putFast: () => setPlayRate(prev => Math.min(prev + 0.2, 2)),
+    putSlow,
+    putFast,
   })
 
   useEffect(() => {
@@ -94,7 +97,7 @@ const TextoComAudio = ({ textData }: IProps) => {
         </div>
         <div className="footer">
           <div className="photo-title">
-            <div className="img-container">
+            <div className="img-container" onClick={putSlow}>
               {Math.round(playRate * 10) / 10 !== 1 && (
                 <div className="speed">{Math.round(playRate * 10) / 10}x</div>
               )}
@@ -106,7 +109,9 @@ const TextoComAudio = ({ textData }: IProps) => {
                 alt=""
               />
             </div>
-            <div className="title">{textData.title}</div>
+            <div className="title" onClick={putFast}>
+              {textData.title}
+            </div>
             <div className="description">{textData.description}</div>
           </div>
 
