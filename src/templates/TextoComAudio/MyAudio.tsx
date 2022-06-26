@@ -8,6 +8,7 @@ interface IProps {
   isPlaying?: boolean
   indexActive?: number | boolean
   setIndexActive: (index: number) => void
+  playRate: number
 }
 
 export default function MyAudio({
@@ -15,6 +16,7 @@ export default function MyAudio({
   inLoop,
   isPlaying,
   indexActive,
+  playRate,
   setIndexActive,
 }: IProps) {
   const audio = useRef<HTMLAudioElement>(null)
@@ -95,6 +97,12 @@ export default function MyAudio({
       }
     }
   }, [indexActive])
+
+  useEffect(() => {
+    if (audio.current) {
+      audio.current.playbackRate = playRate
+    }
+  }, [playRate])
 
   return <audio src={textData.audioUrl} ref={audio}></audio>
 }

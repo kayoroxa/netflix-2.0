@@ -6,6 +6,8 @@ interface IProps {
   prev: () => any
   togglePause: () => any
   repeatIndex: () => any
+  putSlow: () => any
+  putFast: () => any
 }
 
 export default function useKey({
@@ -14,6 +16,8 @@ export default function useKey({
   prev,
   togglePause,
   repeatIndex,
+  putSlow,
+  putFast,
 }: IProps) {
   useEffect(() => {
     function prevent(e: KeyboardEvent, func: () => any) {
@@ -26,6 +30,8 @@ export default function useKey({
       else if (e.key === 'a') prevent(e, prev)
       else if (e.key === ' ') prevent(e, togglePause)
       else if (e.key === 's') prevent(e, repeatIndex)
+      else if (e.key === '1') prevent(e, putSlow)
+      else if (e.key === '2') prevent(e, putFast)
     }
     document.addEventListener('keydown', handleKeyDown)
 

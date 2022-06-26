@@ -17,6 +17,7 @@ interface IProps {
 
 const TextoComAudio = ({ textData }: IProps) => {
   const [indexActive, setIndexActive] = useState<number | boolean>(false)
+  const [playRate, setPlayRate] = useState(1)
 
   const [inLoop, setInLoop] = useState(false)
   const [showTranslate, setShowTranslate] = useState(true)
@@ -52,6 +53,8 @@ const TextoComAudio = ({ textData }: IProps) => {
     prev: handlePrev,
     togglePause: () => setIsPlaying(prev => !prev),
     repeatIndex: () => setIndexActive(prev => (isNumber(prev) ? prev : 0)),
+    putSlow: () => setPlayRate(prev => Math.max(prev - 0.2, 0.2)),
+    putFast: () => setPlayRate(prev => Math.min(prev + 0.2, 2)),
   })
 
   useEffect(() => {
@@ -92,6 +95,9 @@ const TextoComAudio = ({ textData }: IProps) => {
         <div className="footer">
           <div className="photo-title">
             <div className="img-container">
+              {Math.round(playRate * 10) / 10 !== 1 && (
+                <div className="speed">{Math.round(playRate * 10) / 10}x</div>
+              )}
               <img
                 src={
                   textData.img ||
@@ -138,6 +144,7 @@ const TextoComAudio = ({ textData }: IProps) => {
             inLoop={inLoop}
             isPlaying={isPlaying}
             indexActive={indexActive}
+            playRate={playRate}
             setIndexActive={setIndexActive}
           />
         )}

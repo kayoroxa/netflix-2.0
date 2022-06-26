@@ -104,6 +104,19 @@ export const ContainerTextoComAudio = styled.div`
         overflow: hidden;
         border-radius: 50%;
 
+        position: relative;
+
+        .speed {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: rgba(12, 20, 45, 0.5);
+          font-size: 20px;
+        }
+
         img {
           width: 100%;
           height: 100%;
