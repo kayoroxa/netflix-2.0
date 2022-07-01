@@ -1,8 +1,16 @@
 import { useState } from 'react'
 import CreateSentences from '../../templates/CreateSentences'
 
-function person(id: string) {
-  let alternatives = ['you', 'he', 'you guys', 'they', 'those people', "y'all"]
+function template(id: string) {
+  let alternatives = [
+    'you',
+    'he',
+    'she',
+    'you guys',
+    'they',
+    'those people',
+    "y'all",
+  ]
 
   if (id === 'p2')
     alternatives = [
@@ -25,6 +33,16 @@ function person(id: string) {
       'can',
       'could',
     ]
+  if (id === 'be+p')
+    alternatives = [
+      'are you',
+      'is he',
+      'is she',
+      'are you guys',
+      'are they',
+      'are those people',
+      "are y'all",
+    ]
 
   if (id === 'ancora') alternatives = ['which means', '_']
 
@@ -43,11 +61,11 @@ function before() {
       'just to be clear',
       'seems odd that',
       'although', // (apesar)
-      'But since', //(mas já que)
-      "it's the first time",
+      // 'But since', //(mas já que)
+      // "it's the first time",
       'in other words',
       'sometimes',
-      'What I think is that',
+      // 'What I think is that',
       'As long as', //(enquanto)
       //"what's in it for you?", // qual é a sua
       '_',
@@ -57,10 +75,51 @@ function before() {
 
 const bigData = [
   {
+    rawSentence: '{w} {be+p} {gonna} {v}?',
+    replacements: [
+      {
+        id: 'gonna',
+        alternatives: ['going to', 'gonna', 'supposed to', 'up to?'],
+      },
+      {
+        id: 'w',
+        alternatives: ['what', 'the same girl', 'we knew what', 'who'],
+      },
+      {
+        id: 'v',
+        alternatives: [
+          'drive with',
+          'know with',
+          'deal with',
+          'go with',
+          'fell in love with',
+          'waiting for',
+          'care for',
+          'listen to',
+          'look at',
+          'learn from',
+        ],
+      },
+      template('be+p'),
+    ],
+  },
+  {
     rawSentence: '{before} {p} {have} {known} {whats} {to feel joy}',
     replacements: [
-      before(),
-      person('p'),
+      {
+        id: 'before',
+        alternatives: [
+          'just to be clear',
+          'seems odd that',
+          'although', // (apesar)
+          'in other words',
+          'sometimes',
+          'What I think is that',
+          //"what's in it for you?", // qual é a sua
+          '_',
+        ],
+      },
+      template('p'),
       {
         id: 'have',
         alternatives: [
@@ -91,11 +150,60 @@ const bigData = [
     ],
   },
   {
+    rawSentence: 'what {code} {not} {cod+p} {w/h} do {adj} {comp}?',
+    replacements: [
+      {
+        id: 'not',
+        alternatives: ['not', '_'],
+      },
+      {
+        id: 'w/h',
+        alternatives: [
+          //
+          'want to',
+          'have to',
+          'intend to',
+          // '_',
+          // 'mean',
+        ],
+      },
+      {
+        id: 'adj',
+        alternatives: [
+          //
+          'to fool',
+          'to show',
+          'to impress',
+          'to prove',
+        ],
+      },
+      {
+        id: 'cod+p',
+        alternatives: ['we', 'we all', 'you', 'they', 'she', 'i', 'he', 'Jack'],
+      },
+      {
+        id: 'code',
+        alternatives: [
+          //
+          'will 👴',
+          'would 👑',
+          'should 👨‍🎓',
+          'could 🦾',
+          'did 👶',
+        ],
+      },
+      {
+        id: 'comp',
+        alternatives: ['you', 'me', 'him', 'these things', 'our boss'], //'by that'
+      },
+    ],
+  },
+  {
     rawSentence: '{p} {aumentadores} {code} {w} {p2} {v} there {f_l}',
     replacements: [
-      person('p'),
-      person('p2'),
-      person('aumentadores'),
+      template('p'),
+      template('p2'),
+      template('aumentadores'),
       {
         id: 'f_l',
         alternatives: [`for life`, `forever`, `until tomorrow`, '_'],
@@ -132,7 +240,7 @@ const bigData = [
   {
     rawSentence: '{w} {code+p} {r} do {p2} {f}',
     replacements: [
-      person('p2'),
+      template('p2'),
 
       {
         id: 'f',
@@ -161,7 +269,7 @@ const bigData = [
   {
     rawSentence: '{w} the {only} {r} {action} {p2} {who}',
     replacements: [
-      person('p2'),
+      template('p2'),
 
       {
         id: 'who',
@@ -189,7 +297,7 @@ const bigData = [
   {
     rawSentence: '{frase} {p} {cod+n} {r} {v} what {comp} {ing}',
     replacements: [
-      person('p'),
+      template('p'),
 
       {
         id: 'frase',
@@ -260,7 +368,14 @@ const bigData = [
 
       {
         id: 'r',
-        alternatives: ['really', 'recently', 'sure', 'literally', '_'],
+        alternatives: [
+          'really',
+          'recently',
+          'sure',
+          'literally',
+          'obviously',
+          '_',
+        ],
       },
       {
         id: 'a',
@@ -411,7 +526,7 @@ const bigData = [
 
   {
     rawSentence:
-      "it's not {because} lack of {causa} but for lack of commitment",
+      "it's not {because} lack of {causa} but for lack of {commitment}",
     replacements: [
       {
         id: 'p',
@@ -424,6 +539,15 @@ const bigData = [
           `they`,
           `people`,
           'many people',
+        ],
+      },
+      {
+        id: 'commitment',
+        alternatives: [
+          'commitment',
+          'persistence',
+          'not knowing how to wait',
+          'money',
         ],
       },
       {
@@ -490,7 +614,7 @@ const bigData = [
   {
     rawSentence: '{ancora} {p} {have} {time} {v3} {m}',
     replacements: [
-      person('ancora'),
+      template('ancora'),
       {
         id: 'm',
         alternatives: [`more`, `_`],
@@ -521,61 +645,39 @@ const bigData = [
       },
       {
         id: 'time',
-        alternatives: ['always', 'never', 'often', '_'],
+        alternatives: ['always', 'never', 'often', 'obviously', '_'],
       },
       {
         id: 'v3',
-        alternatives: ['been obsessed', 'done', 'talked', 'here'],
+        alternatives: ['been obsessed', 'done', 'talked', 'been here'],
       },
     ],
   },
+
   {
-    rawSentence: 'what {code} {not} {cod+p} {w/h} {adj} {comp}?',
+    rawSentence: '{if} {p+to_be} {trying} {adj} that {p} {what}',
     replacements: [
       {
-        id: 'not',
-        alternatives: ['not', '_'],
+        id: 'if',
+        alternatives: ['if', 'I know', '_'],
       },
       {
-        id: 'w/h',
+        id: 'trying',
         alternatives: [
-          'want to do',
-          'have to do',
-          'intend to do',
-          'do',
-          // 'mean',
+          //
+          'wanting to',
+          'trying to',
         ],
       },
       {
         id: 'adj',
         alternatives: [
-          'to fool',
-          'to show',
-          'to impress',
-          'to prove',
-          // 'mean',
+          //
+          'pretend',
+          'show',
+          'impress by saying',
+          'prove',
         ],
-      },
-      {
-        id: 'cod+p',
-        alternatives: ['we', 'we all', 'you', 'they', 'she', 'i', 'he', 'Jack'],
-      },
-      {
-        id: 'code',
-        alternatives: ['will', 'would', 'should', 'could', 'did'],
-      },
-      {
-        id: 'comp',
-        alternatives: ['you', 'me', 'him', 'these things', 'our boss'], //'by that'
-      },
-    ],
-  },
-  {
-    rawSentence: 'if {p+to_be} trying to {adj} that {p} {what}',
-    replacements: [
-      {
-        id: 'adj',
-        alternatives: ['pretend', 'show', 'impress', 'prove'],
       },
       {
         id: 'p',
@@ -595,21 +697,25 @@ const bigData = [
       },
       {
         id: 'what',
-        alternatives: ['speak languages', 'play piano', 'recommend this'],
+        alternatives: [
+          'speak too many languages',
+          'play piano',
+          'recommend this',
+        ],
       },
     ],
   },
   {
-    rawSentence: '{p+to_be} {not} {adj} {supposed to} {comp}',
+    rawSentence: '{before} {p+to_be} {not} {adj} {supposed to} {comp}',
     replacements: [
-      // before(),
+      before(),
       {
         id: 'adj',
         alternatives: [
           //
           'even',
           'still',
-          // '_',
+          '_',
         ],
       },
       {
@@ -642,7 +748,7 @@ const bigData = [
         alternatives: [
           //
           'going to',
-          // 'supposed to',
+          'supposed to',
           'gonna',
         ],
       },
@@ -716,8 +822,12 @@ const bigData = [
     ],
   },
   {
-    rawSentence: '{p} {v} that the way {p} {verb} {complement} is all wrong',
+    rawSentence: '{p} {v} that the way {p} {verb} {complement} {right}',
     replacements: [
+      {
+        id: 'right',
+        alternatives: ['is all wrong', 'is the right way'],
+      },
       {
         id: 'verb',
         alternatives: ['deal with', 'think about'],
@@ -762,8 +872,12 @@ const bigData = [
     ],
   },
   {
-    rawSentence: "it's where {p} {x} {c} {verb} ",
+    rawSentence: "it's where {p} {x} {c} {not} {verb} ",
     replacements: [
+      {
+        id: 'not',
+        alternatives: ['not', '_'],
+      },
       {
         id: 'x',
         alternatives: ['mostly', 'usually', '_'],
