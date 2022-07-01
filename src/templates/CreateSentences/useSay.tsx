@@ -44,7 +44,6 @@ export function useSay(text: string | null, language?: string) {
         }
 
         voices.forEach(voice => {
-          console.log(voice.name)
           if (voice.name === selectedOption) {
             utter.voice = voice
           }
