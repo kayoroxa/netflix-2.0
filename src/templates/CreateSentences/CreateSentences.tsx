@@ -12,6 +12,17 @@ interface IData {
   replacements: IReplacement[]
 }
 
+interface IBlocks {
+  sentence: string
+  dataBlocks: {
+    isColumn: boolean
+    cells: {
+      isEmphasis: boolean
+      text: string
+    }[]
+  }[]
+}
+
 interface IProps {
   data: IData
   onNext: () => any
@@ -66,8 +77,6 @@ const CreateSentences = ({
     }
   }
 
-  // const [sentence, setSentence] = useState<string[]>([])
-
   function generateHtml(data: IData) {
     let endSentence = false
     const { rawSentence, replacements } = data
@@ -77,9 +86,8 @@ const CreateSentences = ({
       .filter(item => item.length > 0)
 
     let sentenceChoice: string[] = []
-    debugger
 
-    const html = sentencePattern.map((word, index) => {
+    const dataBlocks = sentencePattern.map(word => {
       setCombinations(
         replacements
           .map(v => v.alternatives)
@@ -123,45 +131,38 @@ const CreateSentences = ({
             return cellsLine
           })
 
-          // return {
-          //   isColumn : true,
-          //   cells: column
-          // }
-
-          return (
-            <div className="al" key={index}>
-              <div className="al-inside">
-                {column.map((v, key) => (
-                  <div
-                    className={`al-item word ${v.isEmphasis ? 'emphasis' : ''}`}
-                    key={key}
-                  >
-                    {v.text}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )
+          return {
+            isColumn: true,
+            cells: column,
+          }
         }
       }
       if (!endSentence) sentenceChoice.push(word)
-      return (
-        <div className={`word ${!endSentence ? 'emphasis' : ''}`}>{word}</div>
-      )
+
+      return {
+        isColumn: false,
+        cells: [
+          {
+            isEmphasis: !endSentence,
+            text: word,
+          },
+        ],
+      }
     })
+
     return {
       sentence: sentenceChoice
         .join(' ')
         .replace(/\s\'/g, "'")
         .replace(/\sn\'t/g, "n't"),
-      html,
+      dataBlocks,
     }
   }
 
-  const [dataSentence, setDataSentence] = useState<{
-    sentence: string | null
-    html: JSX.Element[] | null
-  }>({ sentence: null, html: null })
+  const [dataSentence, setDataSentence] = useState<IBlocks>({
+    sentence: '',
+    dataBlocks: [],
+  })
 
   function onReloadSentence() {
     setDataSentence(generateHtml(data))
@@ -202,7 +203,7 @@ const CreateSentences = ({
       <div className="app">
         <button onClick={onNext}>NEXT...</button>
 
-        {dataSentence.html && (
+        {dataSentence.dataBlocks.length > 0 && (
           <div className="flow-container">
             {before && (
               <div className="al">
@@ -216,7 +217,36 @@ const CreateSentences = ({
               </div>
             )}
 
-            {dataSentence.html}
+            {dataSentence.dataBlocks.map((column, index) => {
+              if (column.isColumn) {
+                return (
+                  <div className="al" key={index}>
+                    <div className="al-inside">
+                      {column.cells.map((v, key) => (
+                        <div
+                          className={`al-item word ${
+                            v.isEmphasis ? 'emphasis' : ''
+                          }`}
+                          key={key}
+                        >
+                          {v.text}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )
+              } else {
+                return (
+                  <div
+                    className={`word ${
+                      column.cells[0].isEmphasis ? 'emphasis' : ''
+                    }`}
+                  >
+                    {column.cells[0].text}
+                  </div>
+                )
+              }
+            })}
           </div>
         )}
 
