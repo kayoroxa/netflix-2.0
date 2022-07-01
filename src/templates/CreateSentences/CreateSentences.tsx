@@ -71,14 +71,15 @@ const CreateSentences = ({
   function generateHtml(data: IData) {
     let endSentence = false
     const { rawSentence, replacements } = data
-    const sentence = rawSentence
+    const sentencePattern = rawSentence
       .split(/(\{.*?\})/g)
       .map(v => v.trim())
       .filter(item => item.length > 0)
 
     let sentenceChoice: string[] = []
+    debugger
 
-    const html = sentence.map((word, index) => {
+    const html = sentencePattern.map((word, index) => {
       setCombinations(
         replacements
           .map(v => v.alternatives)
@@ -86,7 +87,8 @@ const CreateSentences = ({
             return acc * cur.length
           }, 1)
       )
-      if (word.startsWith('{') && word.endsWith('}')) {
+      const isItTag = word.startsWith('{') && word.endsWith('}')
+      if (isItTag) {
         const id = word.slice(1, -1)
         const replacement = replacements.find(
           replacement => replacement.id === id
@@ -94,37 +96,50 @@ const CreateSentences = ({
         if (replacement) {
           let { randomIndex } = sampleArrayIndex(replacement.alternatives)
 
-          if (
-            ['.', '!', '?'].some(p => sentenceChoice.slice(-1)[0]?.endsWith(p))
-          ) {
-            endSentence = true
-          }
+          const andWithPunctuation = ['.', '!', '?'].some(p =>
+            sentenceChoice.slice(-1)[0]?.endsWith(p)
+          )
 
-          const data = replacement.alternatives.map((alternative, key) => {
-            const isEmphasis =
+          if (andWithPunctuation) endSentence = true
+
+          const column = replacement.alternatives.map((alternative, key) => {
+            const isEmphasis: boolean =
               randomIndex === key && alternative !== '_' && !endSentence
 
             if (isEmphasis) {
-              sentenceChoice.push(getOption(sentenceChoice, alternative))
+              sentenceChoice.push(
+                getOption(
+                  sentenceChoice,
+                  alternative.replace(/[^\s\w\?\!\.\,\'\|]/g, '')
+                )
+              )
             }
 
-            return {
+            const cellsLine = {
               isEmphasis,
               text: alternative,
-              elem: (
-                <div
-                  className={`al-item word ${isEmphasis ? 'emphasis' : ''}`}
-                  key={key}
-                >
-                  {alternative}
-                </div>
-              ),
             }
+
+            return cellsLine
           })
+
+          // return {
+          //   isColumn : true,
+          //   cells: column
+          // }
 
           return (
             <div className="al" key={index}>
-              <div className="al-inside">{data.map(v => v.elem)}</div>
+              <div className="al-inside">
+                {column.map((v, key) => (
+                  <div
+                    className={`al-item word ${v.isEmphasis ? 'emphasis' : ''}`}
+                    key={key}
+                  >
+                    {v.text}
+                  </div>
+                ))}
+              </div>
             </div>
           )
         }
