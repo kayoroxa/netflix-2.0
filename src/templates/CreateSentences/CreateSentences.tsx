@@ -68,16 +68,27 @@ const CreateSentences = ({
   onPrev,
 }: IProps) => {
   const [combinations, setCombinations] = useState(0)
+  const [score, setScore] = useState(0)
+  const [level, setLevel] = useState(2)
+
+  useEffect(() => {
+    if (score > 2) {
+      setLevel(prev => prev + 1)
+      setScore(0)
+    }
+  }, [score])
 
   const sampleArrayIndex = (arr: string[]) => {
-    const index = Math.floor(Math.random() * arr.length)
+    const min = Math.min(arr.length, level)
+    const index = Math.floor(Math.random() * min)
+
     return {
       randomIndex: index,
       value: arr[index],
     }
   }
 
-  function generateHtml(data: IData) {
+  function generateBlocksData(data: IData) {
     let endSentence = false
     const { rawSentence, replacements } = data
     const sentencePattern = rawSentence
@@ -165,20 +176,32 @@ const CreateSentences = ({
   })
 
   function onReloadSentence() {
-    setDataSentence(generateHtml(data))
+    setDataSentence(generateBlocksData(data))
   }
 
   useEffect(() => {
-    setDataSentence(generateHtml(data))
+    setDataSentence(generateBlocksData(data))
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter' || e.key === 'd') {
+        setScore(0)
+        setLevel(2)
         onNext()
       }
-      if (e.key === '.' || e.key === 'a') {
+      if (e.key === 'a') {
+        setScore(0)
+        setLevel(2)
         onPrev()
       }
       if (e.key === '0' || e.key === ' ') {
+        onReloadSentence()
+      }
+      if (e.key.toLowerCase() === '2') {
+        setScore(prev => prev + 1)
+        onReloadSentence()
+      }
+      if (e.key.toLowerCase() === '1') {
+        setScore(prev => prev - 1)
         onReloadSentence()
       }
       // if (e.key === 'c') {
@@ -194,7 +217,7 @@ const CreateSentences = ({
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [data])
+  }, [data, level])
 
   useSay(dataSentence.sentence, language)
 
@@ -253,7 +276,8 @@ const CreateSentences = ({
         <div className="after word">{dataSentence.sentence}</div>
         <div className="combinations">{combinations}</div>
         <div className="index">
-          N: {patternsInfo?.currentIndex}/{patternsInfo?.length}
+          N: {patternsInfo?.currentIndex}/{patternsInfo?.length} - Score:{' '}
+          {score} / Level: {level}
         </div>
       </div>
     </ContainerCreateSentences>
