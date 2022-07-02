@@ -21,6 +21,7 @@ interface IBlocks {
     cells: {
       isEmphasis: boolean
       text: string
+      rawText: string
     }[]
   }[]
 }
@@ -118,6 +119,7 @@ const CreateSentences = ({
   // }, [score])
 
   const sampleArrayIndex = (arr: string[]) => {
+    debugger
     // const min = Math.min(arr.length, level)
     // const index = Math.floor(Math.random() * min)
     const index = Math.floor(Math.random() * arr.length)
@@ -142,7 +144,7 @@ const CreateSentences = ({
     }
   }
 
-  function generateBlocksData(data: IData) {
+  function generateBlocksData(data: IData): IBlocks {
     let endSentence = false
     const { rawSentence, replacements } = data
     const sentencePattern = rawSentence
@@ -153,7 +155,7 @@ const CreateSentences = ({
     let sentenceChoice: string[] = []
     let rawSentenceChoice: string[] = []
 
-    const dataBlocks = sentencePattern.map(word => {
+    const dataBlocks = sentencePattern.map((word, indexColumn) => {
       setCombinations(
         replacements
           .map(v => v.alternatives)
@@ -163,11 +165,14 @@ const CreateSentences = ({
       )
       const isItTag = word.startsWith('{') && word.endsWith('}')
       if (isItTag) {
-        const id = word.slice(1, -1)
+        const id: string = word.slice(1, -1)
         const replacement = replacements.find(
           replacement => replacement.id === id
         )
         if (replacement) {
+          replacement.alternatives = replacement.alternatives.map(v =>
+            v === '_' ? `${v}${indexColumn}` : v
+          )
           let { randomIndex } = sampleArrayIndex(replacement.alternatives)
 
           const andWithPunctuation = ['.', '!', '?'].some(p =>
@@ -178,28 +183,33 @@ const CreateSentences = ({
 
           const column = replacement.alternatives.map((alternative, key) => {
             const isEmphasis: boolean =
-              randomIndex === key && alternative !== '_' && !endSentence
+              randomIndex === key && !alternative.includes('_') && !endSentence
+
+            let rawText: string = alternative
+
+            if (randomIndex === key) {
+              rawSentenceChoice.push(rawText)
+            }
 
             if (isEmphasis) {
               sentenceChoice.push(
                 getOption(
                   sentenceChoice,
-                  alternative.replace(/[^\s\w\?\!\.\,\'\|]/g, '')
+                  alternative.replace(/[^\s\w\?\!\.\,\'\|\d]/g, '')
                 )
               )
-
-              rawSentenceChoice.push(alternative)
             }
 
             const cellsLine = {
               isEmphasis,
-              text: alternative,
+              text: alternative.replace(/\d/g, ''),
+              rawText,
             }
 
-            if (!Object.keys(anki).some(item => alternative === item)) {
+            if (!Object.keys(anki).some(item => rawText === item)) {
               setAnki(prev => {
                 const newPrev = { ...prev }
-                newPrev[alternative] = 0
+                newPrev[rawText] = 0
                 return newPrev
               })
             }
@@ -224,11 +234,12 @@ const CreateSentences = ({
           {
             isEmphasis: !endSentence,
             text: word,
+            rawText: word,
           },
         ],
       }
     })
-    console.log(sentenceChoice)
+
     return {
       sentenceDivided: rawSentenceChoice,
       sentence: sentenceChoice
@@ -321,7 +332,7 @@ const CreateSentences = ({
                           <div
                             className="tag"
                             style={{
-                              background: getColorIntensity(anki[v.text]),
+                              background: getColorIntensity(anki[v.rawText]),
                             }}
                           />
 
