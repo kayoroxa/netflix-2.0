@@ -1382,11 +1382,11 @@ export default function PlayPage() {
       />
       <div style={{ padding: '50px' }}>
         {[...new Map(Object.entries(anki).sort((a, b) => a[1] - b[1]))].map(
-          (v, index) => (
-            <p key={index}>
-              <span>{v[0]}: </span>
-              <span>{v[1]}</span>
-            </p>
+          v => (
+            <>
+              {v[0]}: {v[1]}
+              <br />
+            </>
           )
         )}
       </div>
