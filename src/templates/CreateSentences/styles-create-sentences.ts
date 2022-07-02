@@ -11,7 +11,24 @@ export const ContainerCreateSentences = styled.div`
     color: white;
     font-family: 'Roboto', sans-serif;
     /* transition: all 0.3s ease-in-out; */
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box; /* Firefox, other Gecko */
+    box-sizing: border-box;
   }
+
+  .cell {
+    position: relative;
+    border-radius: 5px;
+    overflow: none;
+
+    .tag {
+      height: 100%;
+      width: 10px;
+      right: 0;
+      position: absolute;
+    }
+  }
+
   .app {
     width: 100%;
     height: 100%;

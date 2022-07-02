@@ -34,7 +34,7 @@ const bigData = [
 ]
 export default function PlayPage() {
   const [indexData, setIndexData] = useState(0)
-
+  const [anki, setAnki] = useState<{ [key: string]: number }>({})
   return (
     <div>
       <CreateSentences
@@ -61,6 +61,8 @@ export default function PlayPage() {
         }
         language="fr"
         before={false}
+        anki={anki}
+        setAnki={setAnki}
         after={false}
       />
     </div>

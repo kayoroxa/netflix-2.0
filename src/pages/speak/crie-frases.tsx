@@ -599,7 +599,7 @@ const bigData = [
     replacements: [
       {
         id: 'p',
-        alternatives: [`I`, `My mon`, `you`, `he`, `she`, `we`, `they`, `it`],
+        alternatives: [`I`, `My mom`, `you`, `he`, `she`, `we`, `they`, `it`],
       },
       {
         id: 'comp',
@@ -623,7 +623,7 @@ const bigData = [
         id: 'p',
         alternatives: [
           `I`,
-          `My mon`,
+          `My mom`,
           `you`,
           `he`,
           `she`,
@@ -1156,6 +1156,149 @@ const bigData = [
   //   ],
   // },
 ]
+
+// const bigData = [
+//   {
+//     rawSentence: '{p} {s/n} {v} every {time}',
+//     replacements: [
+//       {
+//         id: 'p',
+//         alternatives: [
+//           `(I)`,
+//           `(you)`,
+//           `(they)`,
+//           `(we)`,
+//           `my mom`,
+//           `he`,
+//           `she`,
+//           `people`,
+//           'many people',
+//         ],
+//       },
+
+//       {
+//         id: 'v',
+//         alternatives: ['love', 'cry', 'play', 'study', 'work', 'invent'],
+//       },
+//       {
+//         id: 'time',
+//         alternatives: ['time', 'moment', 'day'],
+//       },
+//       {
+//         id: 's/n',
+//         alternatives: ["(don't) / doesn't", '(do not) / does not', '_'],
+//       },
+//     ],
+//   },
+//   {
+//     rawSentence: '{cod} {p} {v} every {time}',
+//     replacements: [
+//       {
+//         id: 'p',
+//         alternatives: [
+//           `(I)`,
+//           `(you)`,
+//           `(they)`,
+//           `(we)`,
+//           `my mom`,
+//           `he`,
+//           `she`,
+//           `people`,
+//           'many people',
+//         ],
+//       },
+
+//       {
+//         id: 'v',
+//         alternatives: ['love', 'cry', 'play', 'study', 'work', 'invent'],
+//       },
+//       {
+//         id: 'time',
+//         alternatives: ['time', 'moment', 'day'],
+//       },
+//       {
+//         id: 'cod',
+//         alternatives: [
+//           '(do) / does',
+//           "(don't) / doesn't",
+//           '(do not) / does not',
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     rawSentence: '{p+to_be} {s/n} {v+ing} every {time}',
+//     replacements: [
+//       {
+//         id: 'p+to_be',
+//         alternatives: [
+//           "i'm / i am",
+//           "he's / he is",
+//           "she's / she is",
+//           "it's / it is",
+//           "you're / you are",
+//           "we're / we are",
+//           "they're / they are",
+//         ],
+//       },
+//       {
+//         id: 'v+ing',
+//         alternatives: [
+//           'loving',
+//           'crying',
+//           'playing',
+//           'studying',
+//           'working',
+//           'inventing',
+//         ],
+//       },
+//       {
+//         id: 'time',
+//         alternatives: ['time', 'moment', 'day'],
+//       },
+//       {
+//         id: 's/n',
+//         alternatives: ['not', '_'],
+//       },
+//     ],
+//   },
+
+//   {
+//     rawSentence: '{p+to_be} {s/n} {v+ing} every {time}',
+//     replacements: [
+//       {
+//         id: 'p+to_be',
+//         alternatives: [
+//           'am i',
+//           'is he',
+//           'is she',
+//           'is it',
+//           'are you',
+//           'are we',
+//           'are they',
+//         ],
+//       },
+//       {
+//         id: 'v+ing',
+//         alternatives: [
+//           'loving',
+//           'crying',
+//           'playing',
+//           'studying',
+//           'working',
+//           'inventing',
+//         ],
+//       },
+//       {
+//         id: 'time',
+//         alternatives: ['time', 'moment', 'day'],
+//       },
+//       {
+//         id: 's/n',
+//         alternatives: ['not', '_'],
+//       },
+//     ],
+//   },
 //which is why it says
 //but so far
 //the traffic has always been terrible
@@ -1206,6 +1349,7 @@ const after = [
 
 export default function PlayPage() {
   const [indexData, setIndexData] = useState(0)
+  const [anki, setAnki] = useState<{ [key: string]: number }>({})
 
   return (
     <div>
@@ -1223,6 +1367,8 @@ export default function PlayPage() {
             return prev + 1
           })
         }
+        anki={anki}
+        setAnki={setAnki}
         onNext={() =>
           setIndexData(prev => {
             if (prev - 1 < 0) {
@@ -1234,6 +1380,16 @@ export default function PlayPage() {
         before={false}
         after={after}
       />
+      <div style={{ padding: '50px' }}>
+        {[...new Map(Object.entries(anki).sort((a, b) => a[1] - b[1]))].map(
+          (v, index) => (
+            <p key={index}>
+              <span>{v[0]}: </span>
+              <span>{v[1]}</span>
+            </p>
+          )
+        )}
+      </div>
     </div>
   )
 }

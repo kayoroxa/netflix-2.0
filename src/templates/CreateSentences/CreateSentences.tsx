@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import _ from 'lodash'
+import { SetStateAction, useEffect, useState } from 'react'
 import { ContainerCreateSentences } from './styles-create-sentences'
 import { useSay } from './useSay'
 
@@ -14,6 +15,7 @@ interface IData {
 
 interface IBlocks {
   sentence: string
+  sentenceDivided: string[]
   dataBlocks: {
     isColumn: boolean
     cells: {
@@ -34,6 +36,14 @@ interface IProps {
     length: number
   }
   language?: string
+  anki: {
+    [key: string]: number
+  }
+  setAnki: (
+    value: SetStateAction<{
+      [key: string]: number
+    }>
+  ) => void
 }
 
 function getOption(textDivided: string[], target: string) {
@@ -66,25 +76,69 @@ const CreateSentences = ({
   patternsInfo,
   language,
   onPrev,
+  anki,
+  setAnki,
 }: IProps) => {
   const [combinations, setCombinations] = useState(0)
-  const [score, setScore] = useState(0)
-  const [level, setLevel] = useState(2)
+  // const [score, setScore] = useState(0)
+  // const [level, setLevel] = useState(2)
 
-  useEffect(() => {
-    if (score > 2) {
-      setLevel(prev => prev + 1)
-      setScore(0)
-    }
-  }, [score])
+  const [dataSentence, setDataSentence] = useState<IBlocks>({
+    sentence: '',
+    sentenceDivided: [],
+    dataBlocks: [],
+  })
+
+  function onNotRemember() {
+    setAnki(prev => {
+      const newPrev = { ...prev }
+      dataSentence.sentenceDivided.forEach(word => {
+        if (newPrev[word]) newPrev[word] -= 1
+        else newPrev[word] = -1
+      })
+      return newPrev
+    })
+  }
+  function onRemember() {
+    setAnki((prev: any) => {
+      const newPrev: any = { ...prev }
+      dataSentence.sentenceDivided.forEach(word => {
+        if (newPrev[word]) newPrev[word] += 1
+        else newPrev[word] = +1
+      })
+      return newPrev
+    })
+  }
+
+  // useEffect(() => {
+  //   if (score > 6) {
+  //     setLevel(prev => prev + 1)
+  //     setScore(0)
+  //   }
+  // }, [score])
 
   const sampleArrayIndex = (arr: string[]) => {
-    const min = Math.min(arr.length, level)
-    const index = Math.floor(Math.random() * min)
+    // const min = Math.min(arr.length, level)
+    // const index = Math.floor(Math.random() * min)
+    const index = Math.floor(Math.random() * arr.length)
+
+    const sorted = [
+      ...new Map(Object.entries(anki).sort((a, b) => a[1] - b[1])),
+    ].filter(item => !dataSentence.sentenceDivided.includes(item[0]))
+
+    const randomArr = Array(2)
+      .fill(0)
+      .map(() => _.random(0, 10))
+
+    const sortedFind = sorted
+      .filter((_, index) => !randomArr.includes(index))
+      .find(item => arr.includes(item[0]))
+
+    const newIndex = arr.findIndex(v => v === sortedFind?.[0])
 
     return {
-      randomIndex: index,
-      value: arr[index],
+      randomIndex: sortedFind ? newIndex : index,
+      value: sortedFind ? arr[newIndex] : arr[index],
     }
   }
 
@@ -97,6 +151,7 @@ const CreateSentences = ({
       .filter(item => item.length > 0)
 
     let sentenceChoice: string[] = []
+    let rawSentenceChoice: string[] = []
 
     const dataBlocks = sentencePattern.map(word => {
       setCombinations(
@@ -132,11 +187,21 @@ const CreateSentences = ({
                   alternative.replace(/[^\s\w\?\!\.\,\'\|]/g, '')
                 )
               )
+
+              rawSentenceChoice.push(alternative)
             }
 
             const cellsLine = {
               isEmphasis,
               text: alternative,
+            }
+
+            if (!Object.keys(anki).some(item => alternative === item)) {
+              setAnki(prev => {
+                const newPrev = { ...prev }
+                newPrev[alternative] = 0
+                return newPrev
+              })
             }
 
             return cellsLine
@@ -148,7 +213,10 @@ const CreateSentences = ({
           }
         }
       }
-      if (!endSentence) sentenceChoice.push(word)
+      if (!endSentence) {
+        rawSentenceChoice.push(word)
+        sentenceChoice.push(word)
+      }
 
       return {
         isColumn: false,
@@ -160,8 +228,9 @@ const CreateSentences = ({
         ],
       }
     })
-
+    console.log(sentenceChoice)
     return {
+      sentenceDivided: rawSentenceChoice,
       sentence: sentenceChoice
         .join(' ')
         .replace(/\s\'/g, "'")
@@ -170,38 +239,40 @@ const CreateSentences = ({
     }
   }
 
-  const [dataSentence, setDataSentence] = useState<IBlocks>({
-    sentence: '',
-    dataBlocks: [],
-  })
-
   function onReloadSentence() {
     setDataSentence(generateBlocksData(data))
   }
 
   useEffect(() => {
-    setDataSentence(generateBlocksData(data))
+    onReloadSentence()
+  }, [data])
 
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter' || e.key === 'd') {
-        setScore(0)
-        setLevel(2)
+        // setScore(0)
+        // setLevel(2)
+        setAnki({})
         onNext()
       }
       if (e.key === 'a') {
-        setScore(0)
-        setLevel(2)
+        // setScore(0)
+        // setLevel(2)
+        setAnki({})
         onPrev()
       }
       if (e.key === '0' || e.key === ' ') {
+        e.preventDefault()
         onReloadSentence()
       }
       if (e.key.toLowerCase() === '2') {
-        setScore(prev => prev + 1)
+        // setScore(prev => prev + 1)
         onReloadSentence()
+        onRemember()
       }
       if (e.key.toLowerCase() === '1') {
-        setScore(prev => prev - 1)
+        // setScore(prev => prev - 1)
+        onNotRemember()
         onReloadSentence()
       }
       // if (e.key === 'c') {
@@ -217,7 +288,7 @@ const CreateSentences = ({
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [data, level])
+  }, [data, dataSentence, anki])
 
   useSay(dataSentence.sentence, language)
 
@@ -246,13 +317,22 @@ const CreateSentences = ({
                   <div className="al" key={index}>
                     <div className="al-inside">
                       {column.cells.map((v, key) => (
-                        <div
-                          className={`al-item word ${
-                            v.isEmphasis ? 'emphasis' : ''
-                          }`}
-                          key={key}
-                        >
-                          {v.text}
+                        <div className="cell">
+                          <div
+                            className="tag"
+                            style={{
+                              background: getColorIntensity(anki[v.text]),
+                            }}
+                          />
+
+                          <div
+                            className={`al-item word ${
+                              v.isEmphasis ? 'emphasis' : ''
+                            }`}
+                            key={key}
+                          >
+                            {v.text}
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -276,8 +356,7 @@ const CreateSentences = ({
         <div className="after word">{dataSentence.sentence}</div>
         <div className="combinations">{combinations}</div>
         <div className="index">
-          N: {patternsInfo?.currentIndex}/{patternsInfo?.length} - Score:{' '}
-          {score} / Level: {level}
+          N: {patternsInfo?.currentIndex}/{patternsInfo?.length}
         </div>
       </div>
     </ContainerCreateSentences>
@@ -285,3 +364,8 @@ const CreateSentences = ({
 }
 
 export default CreateSentences
+
+function getColorIntensity(score: number) {
+  if (score === 0) return `rgb(88, 94, 151)`
+  return `rgb(${Math.min(Math.max(140 - score * 15, 0), 255)}, 120, 180)`
+}
