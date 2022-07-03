@@ -422,7 +422,7 @@ const bigData = [
       },
       {
         id: '2-pessoa',
-        alternatives: ['they think', 'it looks like', '_'],
+        alternatives: ['they think', 'it looks like'],
       },
       {
         id: 'k',
@@ -1000,20 +1000,20 @@ const bigData = [
     ],
   },
   {
-    rawSentence: 'What {algo} {do + p} {complemento}?',
+    rawSentence: 'What {do + p} {complemento}?',
     replacements: [
-      {
-        id: 'algo',
-        alternatives: [
-          'sport',
-          'music',
-          'movie',
-          'book',
-          'game',
-          'food',
-          'drink',
-        ],
-      },
+      // {
+      //   id: 'algo',
+      //   alternatives: [
+      //     'sport',
+      //     'music',
+      //     'movie',
+      //     'book',
+      //     'game',
+      //     'food',
+      //     'drink',
+      //   ],
+      // },
       {
         id: 'do + p',
         alternatives: [

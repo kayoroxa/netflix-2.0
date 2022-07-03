@@ -81,6 +81,7 @@ const CreateSentences = ({
   setAnki,
 }: IProps) => {
   const [combinations, setCombinations] = useState(0)
+  const [showAnswer, setShowAnswer] = useState(false)
   // const [score, setScore] = useState(0)
   // const [level, setLevel] = useState(2)
 
@@ -286,6 +287,10 @@ const CreateSentences = ({
         onNotRemember()
         onReloadSentence()
       }
+      if (e.key.toLowerCase() === 'h') {
+        setShowAnswer(prev => !prev)
+      }
+
       // if (e.key === 'c') {
       //   console.log(dataSentence.sentence)
       //   // copy to clipboard
@@ -338,7 +343,11 @@ const CreateSentences = ({
 
                           <div
                             className={`al-item word ${
-                              v.isEmphasis ? 'emphasis' : ''
+                              v.isEmphasis &&
+                              showAnswer &&
+                              !_.sample([true, false])
+                                ? 'emphasis'
+                                : ''
                             }`}
                             key={key}
                           >
@@ -364,7 +373,7 @@ const CreateSentences = ({
           </div>
         )}
 
-        <div className="after word">{dataSentence.sentence}</div>
+        <div className="after word">{showAnswer && dataSentence.sentence}</div>
         <div className="combinations">{combinations}</div>
         <div className="index">
           N: {patternsInfo?.currentIndex}/{patternsInfo?.length}
@@ -378,5 +387,7 @@ export default CreateSentences
 
 function getColorIntensity(score: number) {
   if (score === 0) return `rgb(88, 94, 151)`
+  else if (score >= 5) return `rgb(40, 189, 48)`
+  else if (score <= -9) return `rgb(255, 0, 0)`
   return `rgb(${Math.min(Math.max(140 - score * 15, 0), 255)}, 120, 180)`
 }
