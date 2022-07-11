@@ -32,6 +32,14 @@ export default function MyAudio({
   }, [isPlaying])
 
   useEffect(() => {
+    if (audio.current) {
+      const time = textData.lyrics[0].start
+
+      audio.current.currentTime = time
+    }
+  }, [textData.lyrics, audio.current])
+
+  useEffect(() => {
     if (audio?.current && isPlaying) {
       if (inLoop) {
         // loop video in index start and end
