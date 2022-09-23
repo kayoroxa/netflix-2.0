@@ -1,5 +1,4 @@
 import { GetServerSideProps } from 'next'
-import { getSession } from 'next-auth/react'
 import Home from '../templates/Home'
 import { _Data } from '../utils/types/_type_data'
 
@@ -39,16 +38,15 @@ const data: _Data = {
   ],
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  return {
-    redirect: {
-      destination: '/linguagem-transferida',
-      permanent: false,
-    },
-  }
-
-  const session = await getSession({ req })
-  if (!session) {
+export const getServerSideProps: GetServerSideProps = async () => {
+  // return {
+  //   redirect: {
+  //     destination: '/linguagem-transferida',
+  //     permanent: false,
+  //   },
+  // }
+  // const session = await getSession({ req })
+  if (false) {
     return {
       redirect: {
         destination: '/login',
@@ -56,7 +54,6 @@ export const getServerSideProps: GetServerSideProps = async ({ req }) => {
       },
     }
   }
-
   return {
     props: {
       data,
