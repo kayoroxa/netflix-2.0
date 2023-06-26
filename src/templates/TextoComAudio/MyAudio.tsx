@@ -6,6 +6,7 @@ interface IProps {
   textData: I_Text
   inLoop?: boolean
   isPlaying?: boolean
+  setIsPlaying: (isPlaying: boolean) => void
   indexActive?: number | boolean
   setIndexActive: (index: number) => void
   playRate: number
@@ -18,9 +19,11 @@ export default function MyAudio({
   indexActive,
   playRate,
   setIndexActive,
+  setIsPlaying,
 }: IProps) {
   const audio = useRef<HTMLAudioElement>(null)
   const [isIOS, setIsIOS] = useState(false)
+  const [clickedOnAudio, setClickedOnAudio] = useState(false)
 
   useEffect(() => {
     const is =
@@ -130,7 +133,21 @@ export default function MyAudio({
     }
   }, [playRate])
 
+  console.log({ isPlaying })
   // var is_safari = navigator.userAgent.toLowerCase().indexOf('safari/') > - 1
 
-  return <audio src={textData.audioUrl} ref={audio} controls={isIOS}></audio>
+  return (
+    <>
+      <audio
+        src={textData.audioUrl}
+        ref={audio}
+        controls={clickedOnAudio ? false : isIOS}
+        style={{ position: 'fixed', left: '0', top: '0', zIndex: '10' }}
+        onPlay={() => {
+          setIsPlaying(true)
+          setClickedOnAudio(true)
+        }}
+      ></audio>
+    </>
+  )
 }
