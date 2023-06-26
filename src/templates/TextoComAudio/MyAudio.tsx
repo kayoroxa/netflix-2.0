@@ -47,7 +47,7 @@ export default function MyAudio({
 
         let index = !isNumber(indexActive) ? 0 : indexActive
         const duration =
-          textData.lyrics[index].end - textData.lyrics[index].start
+          textData.lyrics[index]?.end - textData.lyrics[index]?.start
 
         const time = textData.lyrics[index].start
 
@@ -112,5 +112,23 @@ export default function MyAudio({
     }
   }, [playRate])
 
-  return <audio src={textData.audioUrl} ref={audio}></audio>
+  // var is_safari = navigator.userAgent.toLowerCase().indexOf('safari/') > - 1
+
+  function iOS() {
+    return (
+      [
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod',
+      ].includes(navigator.platform) ||
+      // iPad on iOS 13 detection
+      (navigator.userAgent.includes('Mac') && 'ontouchend' in document) ||
+      /iPad|iPhone|iPod/.test(navigator.userAgent)
+    )
+  }
+
+  return <audio src={textData.audioUrl} ref={audio} controls={iOS()}></audio>
 }
