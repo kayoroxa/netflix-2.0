@@ -1,5 +1,5 @@
 import { isNumber } from 'lodash'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { I_Text } from '../../utils/types/_type_text_lyrics'
 
 interface IProps {
@@ -20,6 +20,24 @@ export default function MyAudio({
   setIndexActive,
 }: IProps) {
   const audio = useRef<HTMLAudioElement>(null)
+  const [isIOS, setIsIOS] = useState(false)
+
+  useEffect(() => {
+    const is =
+      [
+        'iPad Simulator',
+        'iPhone Simulator',
+        'iPod Simulator',
+        'iPad',
+        'iPhone',
+        'iPod',
+      ].includes(navigator.platform) ||
+      // iPad on iOS 13 detection
+      (navigator.userAgent.includes('Mac') && 'ontouchend' in document) ||
+      /iPad|iPhone|iPod/.test(navigator.userAgent)
+
+    setIsIOS(is)
+  }, [])
 
   useEffect(() => {
     if (audio.current) {
@@ -114,21 +132,5 @@ export default function MyAudio({
 
   // var is_safari = navigator.userAgent.toLowerCase().indexOf('safari/') > - 1
 
-  function iOS() {
-    return (
-      [
-        'iPad Simulator',
-        'iPhone Simulator',
-        'iPod Simulator',
-        'iPad',
-        'iPhone',
-        'iPod',
-      ].includes(navigator.platform) ||
-      // iPad on iOS 13 detection
-      (navigator.userAgent.includes('Mac') && 'ontouchend' in document) ||
-      /iPad|iPhone|iPod/.test(navigator.userAgent)
-    )
-  }
-
-  return <audio src={textData.audioUrl} ref={audio} controls={iOS()}></audio>
+  return <audio src={textData.audioUrl} ref={audio} controls={isIOS}></audio>
 }
