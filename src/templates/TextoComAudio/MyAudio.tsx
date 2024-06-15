@@ -6,7 +6,7 @@ interface IProps {
   textData: I_Text
   inLoop?: boolean
   isPlaying?: boolean
-  setIsPlaying: (isPlaying: boolean) => void
+  setIsPlaying?: (isPlaying: boolean) => void
   indexActive?: number | boolean
   setIndexActive: (index: number) => void
   playRate: number
@@ -23,7 +23,6 @@ export default function MyAudio({
 }: IProps) {
   const audio = useRef<HTMLAudioElement>(null)
   const [isIOS, setIsIOS] = useState(false)
-  const [clickedOnAudio, setClickedOnAudio] = useState(false)
 
   useEffect(() => {
     const is =
@@ -140,8 +139,6 @@ export default function MyAudio({
         onClick={() => {
           if (audio.current) {
             audio.current.play()
-            setIsPlaying(true)
-            setClickedOnAudio(true)
           }
         }}
       >
@@ -153,7 +150,6 @@ export default function MyAudio({
         style={{ position: 'fixed', left: '0', top: '0', zIndex: '10' }}
         onPlay={() => {
           if (setIsPlaying) setIsPlaying(true)
-          setClickedOnAudio(true)
         }}
       ></audio>
     </>
