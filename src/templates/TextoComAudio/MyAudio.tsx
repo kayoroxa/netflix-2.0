@@ -155,7 +155,7 @@ export default function MyAudio({
       <audio
         src={textData.audioUrl}
         ref={audio}
-        controls={isIOS ? false : true}
+        controls={isIOS ? true : false}
         style={{ position: 'fixed', left: '0', top: '0', zIndex: '10' }}
         onPlay={() => {
           if (setIsPlaying) setIsPlaying(true)
